@@ -1,0 +1,26 @@
+syntax = "proto3"; 					// 指定使用proto3语法
+package protobuf;  					// 指定包名
+
+
+message MessageEnvelope{ 			// 定义一个消息模型
+    uint32 TargetId = 1; 			// 定义一个无符号整数类型
+    string ID = 2;					// 定义一个字符串类型
+    bytes Payload = 3;				// 定义一个字节类型
+    MessageType Type = 4;			// 定义一个枚举类型
+	repeated Player Players = 5;	// 定义一个集合对象类型
+    Player user = 6;	// 定义一个集合对象类型
+    repeated string list = 7;
+    repeated uint32 intList = 8;
+}
+
+enum MessageType {					// 定义一个枚举类型
+	SYSTEM = 0;						// 第一个枚举值为零
+	ALARM = 1;
+}
+
+message Player {
+	string name = 1;
+    uint32 age = 2;
+}
+
+
