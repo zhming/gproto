@@ -1,0 +1,368 @@
+syntax = "proto3";
+option optimize_for = LITE_RUNTIME;
+option java_package = "com.saic.val.proto";
+option java_outer_classname = "SceneService_SOA20_2_0";
+option java_multiple_files = false;
+
+package sceneservice;
+
+import "proto/servicebase.proto";
+
+//BaseStruct Define
+message RequestRetCode {
+    uint32 SceneResult = 1;
+    string ID = 2;
+}
+
+message SceneAdditionalAttr {
+    string Account = 1;
+    string ID = 2;
+    uint32 IconType = 3;
+    uint32 IconColor = 4;
+}
+
+message SceneInfo {
+    string ID = 1;
+    uint32 Type = 2;
+    string Name = 3;
+    string UUID = 4;
+    bool IsRunning = 5;
+    bool IsEnabled = 6;
+    bool DeleteFlag = 7;
+}
+
+message SceneStatus {
+    string ID = 1;
+    uint32 TriggerType = 2;
+    uint32 ErrorCode = 3;
+    uint32 StepCount = 4;
+    uint32 CurrentStep = 5;
+    bool IsRunning = 6;
+    bool IsEnabled = 7;
+    repeated StepStatus StepStatusList = 8;
+}
+
+message StepStatus {
+    string StepID = 1;
+    uint32 Status = 2;
+}
+
+//Method &Event & Field Params(Input&Output)
+message AddSceneInput {
+    string SceneID = 1;
+    uint32 SceneType = 2;
+    string SceneFile = 3;
+    string checkValue = 4;
+}
+
+message AddSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message AddSceneMethod{
+    AddSceneInput input = 1;
+    AddSceneOutput output = 2;
+}
+
+message CancelSceneInput {
+    string SceneID = 1;
+}
+
+message CancelSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message CancelSceneMethod{
+    CancelSceneInput input = 1;
+    CancelSceneOutput output = 2;
+}
+
+message DisableSceneInput {
+    string SceneID = 1;
+}
+
+message DisableSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message DisableSceneMethod{
+    DisableSceneInput input = 1;
+    DisableSceneOutput output = 2;
+}
+
+message EnableSceneInput {
+    string SceneID = 1;
+}
+
+message EnableSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message EnableSceneMethod{
+    EnableSceneInput input = 1;
+    EnableSceneOutput output = 2;
+}
+
+message ExecuteSceneInput {
+    string SceneID = 1;
+}
+
+message ExecuteSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message ExecuteSceneMethod{
+    ExecuteSceneInput input = 1;
+    ExecuteSceneOutput output = 2;
+}
+
+message GetSceneInput {
+    string SceneID = 1;
+}
+
+message GetSceneOutput {
+    uint32 SceneResult = 1;
+    string SceneFile = 2;
+    string checkValue = 3;
+}
+
+message GetSceneMethod{
+    GetSceneInput input = 1;
+    GetSceneOutput output = 2;
+}
+
+message GetSceneListOutput {
+    repeated SceneInfo SceneList = 1;
+}
+
+message GetSceneListMethod{
+    GetSceneListOutput output = 1;
+}
+
+message GetSceneStatusInput {
+    string SceneID = 1;
+}
+
+message GetSceneStatusOutput {
+    uint32 SceneResult = 1;
+}
+
+message GetSceneStatusMethod{
+    GetSceneStatusInput input = 1;
+    GetSceneStatusOutput output = 2;
+}
+
+message PauseSceneInput {
+    string SceneID = 1;
+}
+
+message PauseSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message PauseSceneMethod{
+    PauseSceneInput input = 1;
+    PauseSceneOutput output = 2;
+}
+
+message RemoveSceneInput {
+    string SceneID = 1;
+}
+
+message RemoveSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message RemoveSceneMethod{
+    RemoveSceneInput input = 1;
+    RemoveSceneOutput output = 2;
+}
+
+message RequestSceneIDInput {
+    string SceneName = 1;
+}
+
+message RequestSceneIDOutput {
+    RequestRetCode RequestRetCode = 1;
+}
+
+message RequestSceneIDMethod{
+    RequestSceneIDInput input = 1;
+    RequestSceneIDOutput output = 2;
+}
+
+message ResetSceneInput {
+    string Account = 1;
+    string SceneID = 2;
+}
+
+message ResetSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message ResetSceneMethod{
+    ResetSceneInput input = 1;
+    ResetSceneOutput output = 2;
+}
+
+message SetSceneAdditionalAttrInput {
+    SceneAdditionalAttr SceneAdditionalAttr = 1;
+}
+
+message SetSceneAdditionalAttrOutput {
+    uint32 SceneResult = 1;
+}
+
+message SetSceneAdditionalAttrMethod{
+    SetSceneAdditionalAttrInput input = 1;
+    SetSceneAdditionalAttrOutput output = 2;
+}
+
+message TerminateSceneInput {
+    string SceneID = 1;
+}
+
+message TerminateSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message TerminateSceneMethod{
+    TerminateSceneInput input = 1;
+    TerminateSceneOutput output = 2;
+}
+
+message UpdateSceneInput {
+    string SceneID = 1;
+    string SceneFile = 2;
+    string checkValue = 3;
+}
+
+message UpdateSceneOutput {
+    uint32 SceneResult = 1;
+}
+
+message UpdateSceneMethod{
+    UpdateSceneInput input = 1;
+    UpdateSceneOutput output = 2;
+}
+
+message SceneAddedOutput {
+    string SceneID = 1;
+}
+
+message SceneAddedEvent{
+    SceneAddedOutput output = 1;
+}
+
+message SceneListUpdatedOutput {
+    repeated SceneInfo SceneList = 1;
+}
+
+message SceneListUpdatedEvent{
+    SceneListUpdatedOutput output = 1;
+}
+
+message SceneRemovedOutput {
+    string SceneID = 1;
+}
+
+message SceneRemovedEvent{
+    SceneRemovedOutput output = 1;
+}
+
+message SceneStatusOutput {
+    SceneStatus SceneStatus = 1;
+}
+
+message SceneStatusEvent{
+    SceneStatusOutput output = 1;
+}
+
+message SceneUpdatedOutput {
+    string SceneID = 1;
+}
+
+message SceneUpdatedEvent{
+    SceneUpdatedOutput output = 1;
+}
+
+message CurrentAccountField{
+    string getter = 1;
+
+    string notifier = 2;
+}
+
+message GetSceneAdditionalAttrField{
+    repeated SceneAdditionalAttr getter = 1;
+
+    repeated SceneAdditionalAttr notifier = 2;
+}
+
+//SceneServiceInfo
+message SceneServiceInfo {
+
+    enum servicename {
+        SCENESERVICE = 0;
+    }
+    enum serviceid {
+        SERVICEFLAG = 0;
+    }
+
+    enum methods {
+        Method_Undefined = 0;
+        AddSceneMethod = 1;
+        CancelSceneMethod = 2;
+        DisableSceneMethod = 3;
+        EnableSceneMethod = 4;
+        ExecuteSceneMethod = 5;
+        GetSceneMethod = 6;
+        GetSceneListMethod = 7;
+        GetSceneStatusMethod = 8;
+        PauseSceneMethod = 9;
+        RemoveSceneMethod = 10;
+        RequestSceneIDMethod = 11;
+        ResetSceneMethod = 12;
+        SetSceneAdditionalAttrMethod = 13;
+        TerminateSceneMethod = 14;
+        UpdateSceneMethod = 15;
+    }
+    enum events {
+        Event_Undefined = 0;
+        SceneAddedEvent = 1;
+        SceneListUpdatedEvent = 2;
+        SceneRemovedEvent = 3;
+        SceneStatusEvent = 4;
+        SceneUpdatedEvent = 5;
+    }
+
+    enum fields {
+        Fields_Undefined = 0;
+        CurrentAccountField = 1;
+        GetSceneAdditionalAttrField = 2;
+    }
+
+    servicebase.serviceheader srvHeader = 1;
+
+    AddSceneMethod AddSceneParam = 2;
+    CancelSceneMethod CancelSceneParam = 3;
+    DisableSceneMethod DisableSceneParam = 4;
+    EnableSceneMethod EnableSceneParam = 5;
+    ExecuteSceneMethod ExecuteSceneParam = 6;
+    GetSceneMethod GetSceneParam = 7;
+    GetSceneListMethod GetSceneListParam = 8;
+    GetSceneStatusMethod GetSceneStatusParam = 9;
+    PauseSceneMethod PauseSceneParam = 10;
+    RemoveSceneMethod RemoveSceneParam = 11;
+    RequestSceneIDMethod RequestSceneIDParam = 12;
+    ResetSceneMethod ResetSceneParam = 13;
+    SetSceneAdditionalAttrMethod SetSceneAdditionalAttrParam = 14;
+    TerminateSceneMethod TerminateSceneParam = 15;
+    UpdateSceneMethod UpdateSceneParam = 16;
+    SceneAddedEvent SceneAddedParam = 17;
+    SceneListUpdatedEvent SceneListUpdatedParam = 18;
+    SceneRemovedEvent SceneRemovedParam = 19;
+    SceneStatusEvent SceneStatusParam = 20;
+    SceneUpdatedEvent SceneUpdatedParam = 21;
+    CurrentAccountField CurrentAccountParam = 22;
+    GetSceneAdditionalAttrField GetSceneAdditionalAttrParam = 23;
+}

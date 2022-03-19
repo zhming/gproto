@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: api-gproto
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${REGISTER_ADDR:127.0.0.1:8848}
+        namespace: ${DISCOVERY_NAMESPACE:public}
+        group: public
+      config:
+        server-addr: ${REGISTER_ADDR:127.0.0.1:8848}
+        namespace: ${NAMESPACE:gproto-dev}
+        group: gproto
+        file-extension: yml
+      username: ${NACOS_USERNAME:nacos}
+      password: ${NACOS_PASSWORD:nacos}
