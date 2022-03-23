@@ -1,9 +1,12 @@
-{"code": 222,"message":"msg111","serverTime": 125860000,"transactionId":"1111111111111122233ac","type":"t1"}ption java_outer_classname = "CloudTest";
+syntax = "proto3";
+option optimize_for = LITE_RUNTIME;
+option java_package = "com.saic.val.proto";
+option java_outer_classname = "CloudSceneSyncProxy_SOA20_SOA_0_2";
 option java_multiple_files = false;
 
 package cloudscenesyncproxy;
 
-import "servicebase.proto";
+import "proto/servicebase.proto";
 
 //BaseStruct Define
 message BindingDetailResp {
