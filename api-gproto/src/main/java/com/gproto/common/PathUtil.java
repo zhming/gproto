@@ -23,6 +23,9 @@ public class PathUtil {
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
                 if (file.toString().endsWith(".jar")) {
                     paths.add(file);
+                }else if(file.toString().endsWith(".class")){
+                    log.info("class file: " + file.toString());
+                    paths.add(file);
                 }
                 return FileVisitResult.CONTINUE;
             }
