@@ -6,7 +6,7 @@
 - 服务端 golang
 - protobuf处理 python
 - 前端 Vue3.js
-- [网站地址 http://gproto.cn](http://gproto.cn)
+- [网站地址 https://gproto.cn](https://gproto.cn)
 
 2. #### 需求
 - proto文件转python文件，存储到配置路径
