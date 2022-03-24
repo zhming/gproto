@@ -33,5 +33,5 @@ build/
 .vscode/
 
 ### other ###
-/jars/
-/protofile/
+/api-gproto/jars/
+/api-gproto/protofile/

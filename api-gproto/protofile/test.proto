@@ -14,7 +14,6 @@ message BindingKeyUpdateAInput {
     string source = 4;
     uint64 userId = 5;
 }
-
 message BindingKeyAResp {
     uint32 code = 1;
     string message = 2;
@@ -30,8 +29,8 @@ message BindingKeyUpdateAMethod{
     BindingKeyUpdateAInput input = 1;
     BindingKeyUpdateAOutput output = 2;
 }
-//CloudSceneSyncProxyInfo
-message CloudSceneSyncProxy111Info {
+//CloudSceneSyncProxyAInfo
+message CloudSceneSyncProxyAInfo {
     enum servicename {
         CLOUDSCENESYNCPROXY = 0;
     }
@@ -40,7 +39,7 @@ message CloudSceneSyncProxy111Info {
     }
     enum methods {
         Method_Undefined = 0;
-        BindingKeyUpdateAMethod = 1;
+        BindingKeyUpdateMethod = 1;
     }
     enum events {
         Event_Undefined = 0;
@@ -49,5 +48,6 @@ message CloudSceneSyncProxy111Info {
         Fields_Undefined = 0;
     }
     servicebase.serviceheader srvHeader = 1;
-    BindingKeyUpdateAMethod BindingKeyUpdateAParam = 2;
+    BindingKeyUpdateAMethod BindingKeyUpdateParam = 2;
 }
+
