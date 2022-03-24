@@ -45,7 +45,7 @@ public class FileServiceImpl implements FileService {
             fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
             mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
             jarName = fileName.substring(0, fileName.lastIndexOf("."));
-            cmd = new String[]{"bash", "/C", mavenGprotoPath + "/maven-build.sh", jarName, " ", mavenGprotoPath};
+            cmd = new String[]{mavenGprotoPath + "/maven-build.sh", jarName, " ", mavenGprotoPath};
         }
 
         initUserFolder(uid, path);
@@ -77,7 +77,7 @@ public class FileServiceImpl implements FileService {
              fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
              mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
             jarName = fileName.substring(0, fileName.lastIndexOf("."));
-            cmd = new String[]{"bash", "/C", mavenGprotoPath + "/maven-build.sh", jarName, " ", mavenGprotoPath};
+            cmd = new String[]{mavenGprotoPath + "/maven-build.sh", jarName, " ", mavenGprotoPath};
         }
 
         initUserFolder(uid, path);
@@ -126,7 +126,7 @@ public class FileServiceImpl implements FileService {
         log.info("sourceJarDir: " + sourceJarDir);
         String jarFileName = sourceJarDir.substring(sourceJarDir.lastIndexOf("\\") + 1);
         log.info("jarFileName: " + jarFileName);
-        copyFile(sourceJarDir, protoJarPath + "\\" + jarFileName);
+        copyFile(sourceJarDir, protoJarPath + "/" + jarFileName);
     }
 
     private void save(String fileName, String fileContent) throws IOException {
