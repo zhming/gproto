@@ -35,9 +35,16 @@ public class ProtoJarAlterationMonitor {
             WatchKey watchKey = watchService.take();
             for (WatchEvent event : watchKey.pollEvents()) {
                 executor.execute(() -> {
-                    DynamicJarLoader dynamicJarLoader = DynamicJarLoader.getInstance();
-                    dynamicJarLoader.reInit(urls);
-                    log.info("reload jar ok");
+                    URL[] urlsNew = new URL[0];
+                    try {
+                        urlsNew = PathUtil.getURLs(this.path);
+                        DynamicJarLoader dynamicJarLoader = DynamicJarLoader.getInstance();
+                        dynamicJarLoader.reInit(urlsNew);
+                        log.info("reload jar ok");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 });
             }
             watchKey.reset();
