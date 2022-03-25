@@ -52,7 +52,11 @@ public class FileServiceImpl implements FileService {
 
         save(fullFileName, fileContent);
 
-        runMavenBuild(cmd, jarFlag);
+        try {
+            runMavenBuild(cmd, jarFlag);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return true;
     }
@@ -84,7 +88,11 @@ public class FileServiceImpl implements FileService {
 
         file.transferTo(new File(fullFileName));
 
-        runMavenBuild(cmd, jarFlag);
+        try {
+            runMavenBuild(cmd, jarFlag);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -100,7 +108,15 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    private void runMavenBuild(String[] cmd, String jarFlag) throws IOException {
+    private void runMavenBuild(String[] cmd, String jarFlag) throws IOException, InterruptedException {
+        if(SystemUtils.IS_OS_LINUX){
+            ProcessBuilder builder = new ProcessBuilder("/bin/chmod", "755",cmd[0]);
+
+            Process process = builder.start();
+
+            process.waitFor();
+        }
+
         Process proc = Runtime.getRuntime().exec(cmd);
         String jarInfo = "";
 
