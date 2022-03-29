@@ -44,4 +44,10 @@ public class ProtoController {
                 requestEntity.getBase64Data(), requestEntity.getFieldName(), requestEntity.getSubFieldName());
         return result;
     }
+
+    @RequestMapping(path = "/getDefaultJson", method = RequestMethod.POST)
+    public Object getDefaultJson(@RequestBody RequestEntity requestEntity)throws Exception {
+        Object result = protobufProcessor.getDefaultJson(requestEntity.getClassName());
+        return result;
+    }
 }

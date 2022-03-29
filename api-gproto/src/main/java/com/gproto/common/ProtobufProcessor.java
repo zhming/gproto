@@ -1,5 +1,6 @@
 package com.gproto.common;
 
+import com.google.common.collect.Maps;
 import com.gproto.classloader.DynamicJarLoader;
 import com.gproto.exception.ProtobufCastException;
 import com.gproto.exception.ProtobufNoFieldException;
@@ -167,6 +168,46 @@ public class ProtobufProcessor {
         return result;
     }
 
+
+
+    /**
+     * json string to base64 protobuf string
+     * @param className
+     * @return
+     */
+    public String getDefaultJson(String className){
+        logger.info("className: " + className);
+        try {
+
+            Class<?> clazz = null;
+            URLClassLoader urlClassLoader = DynamicJarLoader.getInstance().getClassLoader();
+            //获取外部jar里面的具体类对象
+            clazz = urlClassLoader.loadClass(className);
+            //创建对象实例
+            Class messageClazz = urlClassLoader.loadClass("com.google.protobuf.Message$Builder");
+            Method newBuilderMethod = clazz.getMethod("newBuilder");
+
+            Object messageBuilderObj  = newBuilderMethod.invoke(clazz);
+            Method 	getDescriptorForType = messageBuilderObj.getClass().getDeclaredMethod("getDescriptorForType");
+
+            Object descriptor = getDescriptorForType.invoke(messageBuilderObj);
+
+            Method getFields = descriptor.getClass().getDeclaredMethod("getFields");
+
+            List<Object> fields = (List<Object>)getFields.invoke(descriptor);
+
+
+
+
+            String result = fields.toString();
+            return  result;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * 获取protobuf Message对象的field json
      * @param className
@@ -289,5 +330,23 @@ public class ProtobufProcessor {
 
         return result;
     }
+
+
+    private Object toDefaultJson(Object messageObj) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+
+        Method valuesMethod = messageObj.getClass().getDeclaredMethod("values");
+        Object[] objects =   (Object[])valuesMethod.invoke(messageObj);
+
+        if (objects == null) {
+            objects = new Object[0];
+        }
+
+
+        return null;
+    }
+
+
+
+
 
 }
