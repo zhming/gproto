@@ -5,7 +5,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.gproto.classloader.DynamicJarLoader;
-import com.gproto.enum1.ProtoJavaType;
+import com.gproto.enumtype.ProtoJavaType;
 import com.gproto.exception.ProtobufCastException;
 import com.gproto.exception.ProtobufNoFieldException;
 import org.springframework.beans.factory.annotation.Autowired;

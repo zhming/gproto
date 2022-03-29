@@ -1,14 +1,12 @@
 package com.gproto.common;
 
-import com.google.common.collect.Maps;
-import com.gproto.enum1.ProtoJavaType;
+import com.gproto.enumtype.ProtoJavaType;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 import java.util.UUID;
 
-import static com.gproto.enum1.ProtoJavaType.*;
+import static com.gproto.enumtype.ProtoJavaType.*;
 
 
 @Component

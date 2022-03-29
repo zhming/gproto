@@ -1,4 +1,4 @@
-package com.gproto.enum1;
+package com.gproto.enumtype;
 
 public enum ProtoJavaType {
     BOOLEAN,
