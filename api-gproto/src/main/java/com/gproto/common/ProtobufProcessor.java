@@ -1,10 +1,14 @@
 package com.gproto.common;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.gproto.classloader.DynamicJarLoader;
+import com.gproto.enum1.ProtoJavaType;
 import com.gproto.exception.ProtobufCastException;
 import com.gproto.exception.ProtobufNoFieldException;
-import com.google.common.base.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,24 +18,27 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- *
  * @author qianzhm
  */
 @Component
 public class ProtobufProcessor {
-    private Logger logger = Logger.getLogger(ProtobufProcessor.class.getName());
+    private static final Logger logger = Logger.getLogger(ProtobufProcessor.class.getName());
+
+    @Autowired
+    private ProtobufDefaultValueMock protobufDefaultValueMock;
 
     /**
      * base64 protobuf to json string
+     *
      * @param className
      * @param base64Data
      * @return
      */
-    public String protobufDataToJson(String className, String base64Data){
+    public String protobufDataToJson(String className, String base64Data) {
         logger.info("className: " + className);
         try {
-            Object messageObj =  protobufDataToMessageObject(className, base64Data);
-            return (String)toJson(messageObj);
+            Object messageObj = protobufDataToMessageObject(className, base64Data);
+            return (String) toJson(messageObj);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,14 +46,14 @@ public class ProtobufProcessor {
     }
 
 
-
     /**
      * json string to base64 protobuf string
+     *
      * @param className
      * @param jsonData
      * @return
      */
-    public String jsonToProtobuf(String className, String jsonData){
+    public String jsonToProtobuf(String className, String jsonData) {
         logger.info("className: " + className);
         try {
             Object messageObj = jsonToMessage(className, jsonData);
@@ -55,9 +62,9 @@ public class ProtobufProcessor {
 
             Object byteArrayObj = byteArrayMethod.invoke(messageObj, null);
 
-            String base64Data = Base64.getEncoder().encodeToString((byte[])byteArrayObj);
+            String base64Data = Base64.getEncoder().encodeToString((byte[]) byteArrayObj);
 
-           return  base64Data;
+            return base64Data;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,13 +73,14 @@ public class ProtobufProcessor {
 
     /**
      * json string to protobuf message object
+     *
      * @param className
      * @param jsonData
      * @return
      */
-    public Object jsonToMessage(String className, String jsonData){
+    public Object jsonToMessage(String className, String jsonData) {
         logger.info("className: " + className);
-        URLClassLoader urlClassLoader =null;
+        URLClassLoader urlClassLoader = null;
         Object messageObj = null;
 
         try {
@@ -84,7 +92,7 @@ public class ProtobufProcessor {
             Class messageClazz = urlClassLoader.loadClass("com.google.protobuf.Message$Builder");
             Method newBuilderMethod = clazz.getMethod("newBuilder");
 
-            Object messageBuilderObj  = newBuilderMethod.invoke(clazz);
+            Object messageBuilderObj = newBuilderMethod.invoke(clazz);
 
             Class jsonFormatClazz = urlClassLoader.loadClass("com.google.protobuf.util.JsonFormat");
 
@@ -92,9 +100,9 @@ public class ProtobufProcessor {
 
             Object parserObj = parserMethod.invoke(null);
 
-            Method printMethod = parserObj.getClass().getMethod("merge",  String.class,messageClazz);
+            Method printMethod = parserObj.getClass().getMethod("merge", String.class, messageClazz);
 
-            if(Strings.isNullOrEmpty(jsonData)){
+            if (Strings.isNullOrEmpty(jsonData)) {
                 jsonData = "{\n" +
                         "  \"binding\": {\n" +
                         "    \"deleteFlag\": true,\n" +
@@ -118,23 +126,24 @@ public class ProtobufProcessor {
 
             messageObj = messageBuildMethod.invoke(messageBuilderObj, null);
 
-            return  messageObj;
+            return messageObj;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return  messageObj;
+        return messageObj;
     }
 
     /**
      * base64 protobuf string to protobuf message object
+     *
      * @param className
      * @param base64Data
      * @return
      */
-    public Object protobufDataToMessageObject(String className, String base64Data){
+    public Object protobufDataToMessageObject(String className, String base64Data) {
         logger.info("className: " + className);
-        URLClassLoader urlClassLoader =null;
+        URLClassLoader urlClassLoader = null;
         try {
             Class<?> clazz = null;
             urlClassLoader = DynamicJarLoader.getInstance().getClassLoader();
@@ -143,7 +152,7 @@ public class ProtobufProcessor {
             //创建对象实例
             byte[] bytes = Base64.getDecoder().decode(base64Data);
             Method method = clazz.getDeclaredMethod("parseFrom", byte[].class);
-            Object sourceMessage =  method.invoke(null, bytes);
+            Object sourceMessage = method.invoke(null, bytes);
             return sourceMessage;
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,6 +163,7 @@ public class ProtobufProcessor {
 
     /**
      * 获取protobuf Message对象的field json
+     *
      * @param className
      * @param protobufData
      * @param fieldName
@@ -169,13 +179,13 @@ public class ProtobufProcessor {
     }
 
 
-
     /**
      * json string to base64 protobuf string
+     *
      * @param className
      * @return
      */
-    public String getDefaultJson(String className){
+    public String getDefaultJson(String className) {
         logger.info("className: " + className);
         try {
 
@@ -187,20 +197,17 @@ public class ProtobufProcessor {
             Class messageClazz = urlClassLoader.loadClass("com.google.protobuf.Message$Builder");
             Method newBuilderMethod = clazz.getMethod("newBuilder");
 
-            Object messageBuilderObj  = newBuilderMethod.invoke(clazz);
-            Method 	getDescriptorForType = messageBuilderObj.getClass().getDeclaredMethod("getDescriptorForType");
+            Object messageBuilderObj = newBuilderMethod.invoke(clazz);
+            Method getDescriptorForType = messageBuilderObj.getClass().getDeclaredMethod("getDescriptorForType");
 
             Object descriptor = getDescriptorForType.invoke(messageBuilderObj);
 
-            Method getFields = descriptor.getClass().getDeclaredMethod("getFields");
 
-            List<Object> fields = (List<Object>)getFields.invoke(descriptor);
+            Map<String, Object> toDefaultJson = toDefaultJson(descriptor, Maps.newHashMap());
 
+            ObjectMapper objectMapper = new ObjectMapper();
 
-
-
-            String result = fields.toString();
-            return  result;
+            return objectMapper.writeValueAsString(toDefaultJson);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,6 +217,7 @@ public class ProtobufProcessor {
 
     /**
      * 获取protobuf Message对象的field json
+     *
      * @param className
      * @param protobufData
      * @param fieldName
@@ -228,6 +236,7 @@ public class ProtobufProcessor {
 
     /**
      * 获取protobuf Message对象的field Message Object
+     *
      * @param className
      * @param protobufData
      * @param fieldName
@@ -240,11 +249,12 @@ public class ProtobufProcessor {
         Object message = protobufDataToMessageObject(className, protobufData);
 
         result = getMessageField(message, fieldName);
-       return result;
+        return result;
     }
 
     /**
      * 获取protobuf Message对象的field Message Object
+     *
      * @param fieldName
      * @return Message Object
      * @throws Exception
@@ -252,15 +262,15 @@ public class ProtobufProcessor {
     public Object getMessageField(Object message, String fieldName) throws Exception {
         Object result = null;
 
-        if(Objects.isNull(message)){
+        if (Objects.isNull(message)) {
             throw new ProtobufCastException("className");
         }
 
         Method getAllFieldsMethod = message.getClass().getMethod("getAllFields");
 
-        Map<Object, Object> fieldsMap = (Map<Object, Object>)getAllFieldsMethod.invoke(message);
+        Map<Object, Object> fieldsMap = (Map<Object, Object>) getAllFieldsMethod.invoke(message);
 
-        if(Objects.isNull(fieldsMap) || fieldsMap.size() == 0){
+        if (Objects.isNull(fieldsMap) || fieldsMap.size() == 0) {
             throw new ProtobufNoFieldException(fieldName);
         }
 
@@ -268,24 +278,24 @@ public class ProtobufProcessor {
 
         Iterator<Object> iterator = keySet.iterator();
 
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Object fieldDescriptor = iterator.next();
             Method fieldDescriptorGetNameMethod = fieldDescriptor.getClass().getMethod("getName");
             Object currentFieldName = fieldDescriptorGetNameMethod.invoke(fieldDescriptor);
 
-            if(currentFieldName.equals(fieldName)){
+            if (currentFieldName.equals(fieldName)) {
                 Method fieldDescriptorGetJavaTypeMethod = fieldDescriptor.getClass().getMethod("getJavaType");
                 Object javaType = fieldDescriptorGetJavaTypeMethod.invoke(fieldDescriptor);
                 Method javaTypeNameMethod = javaType.getClass().getMethod("name");
                 Object javaTypeName = javaTypeNameMethod.invoke(javaType);
                 Object obj = fieldsMap.get(fieldDescriptor);
-                if("MESSAGE".equals(javaTypeName)){
-                    if(obj instanceof Collection){
+                if (ProtoJavaType.MESSAGE.name().equals(javaTypeName)) {
+                    if (obj instanceof Collection) {
                         result = message;
-                    }else{
+                    } else {
                         result = obj;
                     }
-                }else{
+                } else {
                     result = obj;
                     logger.info("---------");
                 }
@@ -297,6 +307,7 @@ public class ProtobufProcessor {
 
     /**
      * Protobuf Message to json
+     *
      * @param messageObj
      * @return
      * @throws ClassNotFoundException
@@ -306,9 +317,9 @@ public class ProtobufProcessor {
      */
     private Object toJson(Object messageObj) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Object result;
-        if(Objects.isNull(messageObj)){
+        if (Objects.isNull(messageObj)) {
             result = "";
-        }else if(!messageObj.getClass().getName().startsWith("java.lang")){
+        } else if (!messageObj.getClass().getName().startsWith("java.lang")) {
             ClassLoader urlClassLoader = messageObj.getClass().getClassLoader();
             Class jsonFormatClazz = urlClassLoader.loadClass("com.google.protobuf.util.JsonFormat");
 
@@ -324,7 +335,7 @@ public class ProtobufProcessor {
 
             logger.info("Protobuf Message to json:" + jsonObj);
             result = jsonObj;
-        }else{
+        } else {
             result = messageObj;
         }
 
@@ -332,21 +343,74 @@ public class ProtobufProcessor {
     }
 
 
-    private Object toDefaultJson(Object messageObj) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private Map<String, Object> toDefaultJson(Object descriptor, Map<String, Object> jsonMap) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
-        Method valuesMethod = messageObj.getClass().getDeclaredMethod("values");
-        Object[] objects =   (Object[])valuesMethod.invoke(messageObj);
+        Method getFields = descriptor.getClass().getDeclaredMethod("getFields");
 
-        if (objects == null) {
-            objects = new Object[0];
-        }
+        List<Object> fields = (List<Object>) getFields.invoke(descriptor);
+
+        fields.forEach(fieldObj -> {
+
+            try {
+                String key = getKey(fieldObj);
 
 
-        return null;
+                List<Object> array = null;
+
+                Method isPackableMethod = fieldObj.getClass().getDeclaredMethod("isRepeated");
+                Boolean isRepeated = (Boolean) isPackableMethod.invoke(fieldObj);
+
+                logger.info( key + "isRepeated: " + isRepeated.toString());
+
+                if(isRepeated){
+                    array = Lists.newArrayList();
+                }
+
+                Object javaType = getJavaType(fieldObj);
+                if (ProtoJavaType.MESSAGE.name().equals(javaType.toString())) {
+                    Method getMessageTypeMethod = fieldObj.getClass().getDeclaredMethod("getMessageType");
+                    Object descriptorFieldObj = getMessageTypeMethod.invoke(fieldObj);
+
+                    if (!Objects.isNull(array)) {
+                        array.add(toDefaultJson(descriptorFieldObj, Maps.newHashMap()));
+                        jsonMap.put(key, array);
+                    } else {
+                        jsonMap.put(key, toDefaultJson(descriptorFieldObj, Maps.newHashMap()));
+                    }
+                } else {
+                    if (!Objects.isNull(array)) {
+                        array.add(protobufDefaultValueMock.getDefaultValue(javaType.toString()));
+                        jsonMap.put(key, array);
+                    } else {
+                        jsonMap.put(key, protobufDefaultValueMock.getDefaultValue(javaType.toString()));
+                    }
+                }
+
+
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+        });
+
+        return jsonMap;
     }
 
 
 
+    private Object getJavaType(Object fieldDescriptor) throws Exception {
+        Method getContainingTypeMethod = fieldDescriptor.getClass().getDeclaredMethod("getJavaType");
+
+        Object getJavaTypeObj = getContainingTypeMethod.invoke(fieldDescriptor);
+
+        return getJavaTypeObj;
+    }
+
+    private String getKey(Object descriptor) throws Exception {
+        Method nameMethod = descriptor.getClass().getDeclaredMethod("getName");
+
+        return (String) nameMethod.invoke(descriptor);
+    }
 
 
 }
