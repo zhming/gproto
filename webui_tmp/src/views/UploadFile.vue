@@ -30,7 +30,7 @@ import axios from 'axios'
         console.log(file);
       },
       handleExceed(files, fileList) {
-        this.$message.warning(` Current restrictions on choice  3  File , This time I chose  ${files.length}  File , A total of  ${files.length + fileList.length}  File `);
+        this.$message.warning(` Current restrictions on choice  3  File. ${ files.length } ${ fileList.length }`);
       },
       beforeRemove(file, fileList) {
         console.log(file, fileList);
@@ -47,7 +47,7 @@ import axios from 'axios'
         console.log(file)
         console.log(data)
         // axios.post(process.env + '/upload_file', data, {
-        axios.post('http://127.0.0.1:8090/gproto/v1/file/uploadProto', data, {
+        axios.post('http://gproto.cn:8080/gproto/v1/file/uploadProto', data, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

@@ -1,0 +1,699 @@
+{
+	"info": {
+		"_postman_id": "395d2842-06aa-43bf-a4be-94fa2405535d",
+		"name": "gproto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "jsonToProtobuf",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$BindingKeyResp\",\r\n    \"jsonData\": \"{\\\"code\\\": 222,\\\"message\\\":\\\"msg111\\\",\\\"serverTime\\\": 125860000,\\\"transactionId\\\":\\\"1111111111111122233ac\\\",\\\"type\\\":\\\"t1\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "protobufToJson",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$BindingKeyResp\",\r\n    \"jsonData\": \"{\\\"code\\\": 222,\\\"message\\\":\\\"msg111\\\",\\\"serverTime\\\": 125860000,\\\"transactionId\\\":\\\"1111111111111122233ac\\\",\\\"type\\\":\\\"t1\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jsonToProtobuf val",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$BindingKeyResp\",\r\n    \"jsonData\": \"{\\\"code\\\": 222,\\\"message\\\":\\\"msg111\\\",\\\"serverTime\\\": 125860000,\\\"transactionId\\\":\\\"1111111111111122233ac\\\",\\\"type\\\":\\\"t1\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jsonToProtobuf_test",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.gproto.upload.proto.CloudTest$BindingKeyResp\",\r\n    \"jsonData\": \"{\\\"code\\\":\\\"\\\",\\\"message\\\":\\\"\\\",\\\"serverTime\\\":\\\"\\\",\\\"transactionId\\\":\\\"\\\",\\\"transactionId\\\":\\\"\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jsonToProtobuf Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$BindingKeyResp\",\r\n    \"base64Data\": \"CN4BEgZtc2cxMTEYoPGBPCIVMTExMTExMTExMTExMTEyMjIzM2FjKgJ0MQ==\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/protobufDataToJson",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"protobufDataToJson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saveProto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fileName\": \"test.proto\",\r\n    \"content\": \"syntax = \\\"proto3\\\";\\noption optimize_for = LITE_RUNTIME;\\noption java_package = \\\"com.saic.val.proto\\\";\\noption java_outer_classname = \\\"CloudSceneSyncProxy111_SOA20_SOA_0_3\\\";\\noption java_multiple_files = false;\\n\\npackage cloudscenesyncproxy;\\nimport \\\"proto/servicebase.proto\\\";\\n//Method &Event & Field Params(Input&Output)\\nmessage BindingKeyUpdateAInput {\\n    string action = 1;\\n    uint32 key = 2;\\n    uint32 sceneId = 3;\\n    string source = 4;\\n    uint64 userId = 5;\\n}\\nmessage BindingKeyAResp {\\n    uint32 code = 1;\\n    string message = 2;\\n    uint64 serverTime = 3;\\n    string transactionId = 4;\\n    string type = 5;\\n}\\n\\nmessage BindingKeyUpdateAOutput {\\n    BindingKeyAResp bindingKeyAResp = 1;\\n}\\nmessage BindingKeyUpdateAMethod{\\n    BindingKeyUpdateAInput input = 1;\\n    BindingKeyUpdateAOutput output = 2;\\n}\\n//CloudSceneSyncProxyAInfo\\nmessage CloudSceneSyncProxyAInfo {\\n    enum servicename {\\n        CLOUDSCENESYNCPROXY = 0;\\n    }\\n    enum serviceid {\\n        SERVICEFLAG = 0;\\n    }\\n    enum methods {\\n        Method_Undefined = 0;\\n        BindingKeyUpdateMethod = 1;\\n    }\\n    enum events {\\n        Event_Undefined = 0;\\n    }\\n    enum fields {\\n        Fields_Undefined = 0;\\n    }\\n    servicebase.serviceheader srvHeader = 1;\\n    BindingKeyUpdateAMethod BindingKeyUpdateParam = 2;\\n}\\n\\r\",\r\n    \"uid\": \"3344\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/file/saveProto",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"file",
+								"saveProto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadProto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fileName",
+									"value": "upload.proto",
+									"type": "default"
+								},
+								{
+									"key": "uid",
+									"value": "232",
+									"type": "default"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/work/gproto/api-gproto/protofile/test.proto"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/file/uploadProto",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"file",
+								"uploadProto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jsonToProtobuf dynamic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy111_SOA20_SOA_0_3$BindingKeyAResp\",\r\n    \"jsonData\": \"{\\\"code\\\": 222,\\\"message\\\":\\\"msg111\\\",\\\"serverTime\\\": 125860000,\\\"transactionId\\\":\\\"1111111111111122233ac\\\",\\\"type\\\":\\\"t1\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDefaultJson",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$BindingKeyResp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/getDefaultJson",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"getDefaultJson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadProto-enumcase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fileName",
+									"value": "upload.proto",
+									"type": "default"
+								},
+								{
+									"key": "uid",
+									"value": "232",
+									"type": "default"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/work/gproto/api-gproto/protofile/test-enum.proto"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/file/uploadProto",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"file",
+								"uploadProto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDefaultJson-enumcase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/getDefaultJson",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"getDefaultJson"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "api-140",
+			"item": [
+				{
+					"name": "jsonToProtobuf",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$BindingKeyResp\",\r\n    \"jsonData\": \"{\\\"code\\\": 222,\\\"message\\\":\\\"msg111\\\",\\\"serverTime\\\": 125860000,\\\"transactionId\\\":\\\"1111111111111122233ac\\\",\\\"type\\\":\\\"t1\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "protobufToJson",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$BindingKeyResp\",\r\n    \"jsonData\": \"{\\\"code\\\": 222,\\\"message\\\":\\\"msg111\\\",\\\"serverTime\\\": 125860000,\\\"transactionId\\\":\\\"1111111111111122233ac\\\",\\\"type\\\":\\\"t1\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jsonToProtobuf val",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$BindingKeyResp\",\r\n    \"jsonData\": \"{\\\"code\\\": 222,\\\"message\\\":\\\"msg111\\\",\\\"serverTime\\\": 125860000,\\\"transactionId\\\":\\\"1111111111111122233ac\\\",\\\"type\\\":\\\"t1\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jsonToProtobuf_test",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.gproto.upload.proto.CloudTest$BindingKeyResp\",\r\n    \"jsonData\": \"{\\\"code\\\":\\\"\\\",\\\"message\\\":\\\"\\\",\\\"serverTime\\\":\\\"\\\",\\\"transactionId\\\":\\\"\\\",\\\"transactionId\\\":\\\"\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jsonToProtobuf Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$BindingKeyResp\",\r\n    \"base64Data\": \"CN4BEgZtc2cxMTEYoPGBPCIVMTExMTExMTExMTExMTEyMjIzM2FjKgJ0MQ==\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/protobufDataToJson",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"protobufDataToJson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saveProto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fileName\": \"test.proto\",\r\n    \"content\": \"syntax = \\\"proto3\\\";\\noption optimize_for = LITE_RUNTIME;\\noption java_package = \\\"com.saic.val.proto\\\";\\noption java_outer_classname = \\\"CloudSceneSyncProxy111_SOA20_SOA_0_3\\\";\\noption java_multiple_files = false;\\n\\npackage cloudscenesyncproxy;\\nimport \\\"proto/servicebase.proto\\\";\\n//Method &Event & Field Params(Input&Output)\\nmessage BindingKeyUpdateAInput {\\n    string action = 1;\\n    uint32 key = 2;\\n    uint32 sceneId = 3;\\n    string source = 4;\\n    uint64 userId = 5;\\n}\\nmessage BindingKeyAResp {\\n    uint32 code = 1;\\n    string message = 2;\\n    uint64 serverTime = 3;\\n    string transactionId = 4;\\n    string type = 5;\\n}\\n\\nmessage BindingKeyUpdateAOutput {\\n    BindingKeyAResp bindingKeyAResp = 1;\\n}\\nmessage BindingKeyUpdateAMethod{\\n    BindingKeyUpdateAInput input = 1;\\n    BindingKeyUpdateAOutput output = 2;\\n}\\n//CloudSceneSyncProxyAInfo\\nmessage CloudSceneSyncProxyAInfo {\\n    enum servicename {\\n        CLOUDSCENESYNCPROXY = 0;\\n    }\\n    enum serviceid {\\n        SERVICEFLAG = 0;\\n    }\\n    enum methods {\\n        Method_Undefined = 0;\\n        BindingKeyUpdateMethod = 1;\\n    }\\n    enum events {\\n        Event_Undefined = 0;\\n    }\\n    enum fields {\\n        Fields_Undefined = 0;\\n    }\\n    servicebase.serviceheader srvHeader = 1;\\n    BindingKeyUpdateAMethod BindingKeyUpdateParam = 2;\\n}\\n\\r\",\r\n    \"uid\": \"3344\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/file/saveProto",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"file",
+								"saveProto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadProto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fileName",
+									"value": "upload.proto",
+									"type": "default"
+								},
+								{
+									"key": "uid",
+									"value": "232",
+									"type": "default"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/work/gproto/api-gproto/protofile/test.proto"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/file/uploadProto",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"file",
+								"uploadProto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jsonToProtobuf dynamic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy111_SOA20_SOA_0_3$BindingKeyAResp\",\r\n    \"jsonData\": \"{\\\"code\\\": 222,\\\"message\\\":\\\"msg111\\\",\\\"serverTime\\\": 125860000,\\\"transactionId\\\":\\\"1111111111111122233ac\\\",\\\"type\\\":\\\"t1\\\"}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/jsonToProtobuf",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
