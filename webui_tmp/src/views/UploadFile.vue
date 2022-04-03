@@ -38,10 +38,16 @@ import axios from 'axios'
       },
       handleChange(param) {
         const data = new FormData();
-        data.append('file', param.file.name);
-        console.log(data.file)
-        console.log(param.file.name)
-        axios.post(process.env + '/upload_file', data, {
+      
+        let fileName = param.file.name;
+        let file = param.file;
+        data.append('file', file);
+        data.append('uid', '0403');
+        data.append('fileName', fileName);
+        console.log(file)
+        console.log(data)
+        // axios.post(process.env + '/upload_file', data, {
+        axios.post('http://127.0.0.1:8090/gproto/v1/file/uploadProto', data, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
