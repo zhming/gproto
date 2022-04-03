@@ -33,6 +33,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean saveFile(String fileName, String fileContent, String uid) throws IOException {
+        log.info("basePath" + basePath);
+        log.info("protoJarPath"+protoJarPath);
         log.info(fileContent + "\n");
         String mavenGprotoPath = basePath + "\\" + uid + "\\maven-gproto";
         String path = basePath + "/" + uid;
@@ -44,6 +46,8 @@ public class FileServiceImpl implements FileService {
             path = basePath + "/" + uid;
             fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
             mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
+            log.info("mavenGprotoPath"+mavenGprotoPath);
+            log.info("fullFileName"+fullFileName);
             jarName = fileName.substring(0, fileName.lastIndexOf("."));
             cmd = new String[]{mavenGprotoPath + "/maven-build.sh", jarName, " ", mavenGprotoPath};
         }
@@ -140,7 +144,7 @@ public class FileServiceImpl implements FileService {
 
         String sourceJarDir = jarInfo.substring(jarFlag.length());
         log.info("sourceJarDir: " + sourceJarDir);
-        String jarFileName = sourceJarDir.substring(sourceJarDir.lastIndexOf("\\") + 1);
+        String jarFileName = sourceJarDir.substring(sourceJarDir.lastIndexOf("/") + 1);
         log.info("jarFileName: " + jarFileName);
         copyFile(sourceJarDir, protoJarPath + "/" + jarFileName);
     }
@@ -160,4 +164,5 @@ public class FileServiceImpl implements FileService {
         }
 
     }
+
 }
