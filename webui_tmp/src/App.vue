@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <h1>APP入口</h1>
+    <!-- <h1>Google Protobuf Tool</h1> -->
     <img alt="Vue logo" src="./assets/logo.png">
     <nav>
       <router-link to="/">Home</router-link>
       <router-link to="/about">About</router-link>
       <router-link to="/elementuiTest">Element UI 测试页</router-link>
-       <router-link to="/uploadTest">Upload 测试页</router-link>
+      <router-link to="/uploadTest">Upload 测试页</router-link>
+      <router-link to="/gprotoView">Gproto</router-link>
+      <router-link to="/treeView">TreeView</router-link>
     </nav>
     <router-view/>
   </div>

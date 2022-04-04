@@ -24,9 +24,14 @@ const routes = [
     component: () => import('../views/ElementuiTest.vue')
   },
   {
-    path: '/uploadTest',
-    name: 'uploadTest',
-    component: () => import('../views/UploadFile.vue')
+    path: '/gprotoView',
+    name: 'gprotoView',
+    component: () => import('../views/GprotoView.vue')
+  },
+  {
+    path: '/treeView',
+    name: 'treeView',
+    component: () => import('../views/TreeView.vue')
   }
 ]
 
