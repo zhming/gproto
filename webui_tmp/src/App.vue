@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- <h1>Google Protobuf Tool</h1> -->
-    <img alt="Vue logo" src="./assets/logo.png">
+    <h1>Google Protobuf Tool</h1>
+    <img alt="Vue logo" src="./assets/logo.png" weight="120px" height="128px" >
     <nav>
       <router-link to="/">Home</router-link>
       <router-link to="/about">About</router-link>

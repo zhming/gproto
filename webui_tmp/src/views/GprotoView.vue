@@ -1,14 +1,14 @@
 <template>
   <el-container>
     <!-- 顶栏 -->
-    <el-header height="60px">
-      <h2>Google Protobuf Convert Tool</h2>
+    <el-header height="20px">
+      <!-- <h2>Google Protobuf Convert Tool</h2> -->
     </el-header>
     <!-- 嵌套容器 -->
     <el-container>
       <!-- 侧边导航菜单 -->
       <el-aside width="150px">
-        <el-tree class="el-aside" :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+        <el-tree class="el-aside" :data="jsonTreedata" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
       </el-aside>
       <!-- 内容 -->
       <el-main >
@@ -26,7 +26,7 @@
               &nbsp;
             </el-row>
             <el-row>
-            <el-button type="primary" >to protobuf data</el-button>
+            <el-button type="primary" @click="getJsonTree('com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo')">to protobuf data</el-button>
             </el-row>
             <el-row>
               &nbsp;
@@ -96,7 +96,7 @@ export default {
       formProto: {
         data: ''
       },
-      data: [
+      jsonTreedata: [
         {
           label: "一级 1",
           children: [
@@ -199,7 +199,30 @@ export default {
       },
       handleNodeClick(data) {
       console.log(data);
-    }
+    },
+      getJsonTree(messageName) {
+        const data = {
+          "className": messageName
+        };
+        // let className = "com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo";
+        // data.append('className', className);
+        console.log(data)
+        // axios.post(process.env + '/upload_file', data, {
+        axios.post('http://127.0.0.1:8090/gproto/v1/getJsonTree', data
+        // {
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        // }
+        ).then(res => {
+          console.log(res);
+          let resData = res.data;
+          console.log(resData)
+          this.jsonTreedata = resData;
+        }).catch(err => {
+          console.log(err);
+        });
+      }
   }
   ,
   mounted() {
@@ -222,6 +245,7 @@ export default {
 .el-header {
   background-color: #409EFF;
   color: white;
+  height: 5%;
 }
 .el-footer {
   background-color: white;
