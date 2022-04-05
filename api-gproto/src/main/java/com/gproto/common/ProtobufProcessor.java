@@ -5,6 +5,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.gproto.classloader.DynamicJarLoader;
+import com.gproto.entity.JsonTreeEntity;
 import com.gproto.enumtype.ProtoJavaType;
 import com.gproto.exception.ProtobufCastException;
 import com.gproto.exception.ProtobufNoFieldException;
@@ -180,7 +181,7 @@ public class ProtobufProcessor {
 
 
     /**
-     * json string to base64 protobuf string
+     * proto file default json
      *
      * @param className
      * @return
@@ -208,6 +209,46 @@ public class ProtobufProcessor {
             ObjectMapper objectMapper = new ObjectMapper();
 
             return objectMapper.writeValueAsString(toDefaultJson);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * json tree
+     *
+     * @param className
+     * @return
+     */
+    public String getJsonTree(String className) {
+        logger.info("className: " + className);
+        List<JsonTreeEntity> result = new ArrayList<>();
+        try {
+
+            Class<?> clazz = null;
+            URLClassLoader urlClassLoader = DynamicJarLoader.getInstance().getClassLoader();
+            //获取外部jar里面的具体类对象
+            clazz = urlClassLoader.loadClass(className);
+            //创建对象实例
+            Class messageClazz = urlClassLoader.loadClass("com.google.protobuf.Message$Builder");
+            Method newBuilderMethod = clazz.getMethod("newBuilder");
+
+            Object messageBuilderObj = newBuilderMethod.invoke(clazz);
+            Method getDescriptorForType = messageBuilderObj.getClass().getDeclaredMethod("getDescriptorForType");
+
+            Object descriptor = getDescriptorForType.invoke(messageBuilderObj);
+
+            Map<String, Object> toDefaultJson = toDefaultJson(descriptor, Maps.newHashMap());
+            logger.info(toDefaultJson.toString());
+
+            result = mapDataToJsonTree(toDefaultJson);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            return objectMapper.writeValueAsString(result);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -386,7 +427,6 @@ public class ProtobufProcessor {
                     }
                 }
 
-
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -395,8 +435,6 @@ public class ProtobufProcessor {
 
         return jsonMap;
     }
-
-
 
     private Object getJavaType(Object fieldDescriptor) throws Exception {
         Method getContainingTypeMethod = fieldDescriptor.getClass().getDeclaredMethod("getJavaType");
@@ -410,6 +448,21 @@ public class ProtobufProcessor {
         Method nameMethod = descriptor.getClass().getDeclaredMethod("getName");
 
         return (String) nameMethod.invoke(descriptor);
+    }
+
+
+    private List<JsonTreeEntity> mapDataToJsonTree(Map<String, Object> mapData){
+        List<JsonTreeEntity> result = Lists.newArrayList();
+        mapData.forEach((key, value) -> {
+            JsonTreeEntity jsonTreeEntity = new JsonTreeEntity();
+            jsonTreeEntity.setLabel(key);
+            if(value instanceof Map){
+                jsonTreeEntity.setChildren(mapDataToJsonTree((Map<String, Object>)value));
+            }
+            result.add(jsonTreeEntity);
+        });
+
+        return result;
     }
 
 

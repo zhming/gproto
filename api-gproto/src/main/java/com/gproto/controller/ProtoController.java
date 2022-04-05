@@ -20,7 +20,6 @@ public class ProtoController {
     @RequestMapping(path = "/protobufDataToJson", method = RequestMethod.POST)
     public String protobufDataToJson(@RequestBody RequestEntity requestEntity)throws Exception {
         String result = protobufProcessor.protobufDataToJson(requestEntity.getClassName(), requestEntity.getBase64Data());
-
         return result;
     }
 
@@ -48,6 +47,13 @@ public class ProtoController {
     @RequestMapping(path = "/getDefaultJson", method = RequestMethod.POST)
     public Object getDefaultJson(@RequestBody RequestEntity requestEntity)throws Exception {
         Object result = protobufProcessor.getDefaultJson(requestEntity.getClassName());
+        return result;
+    }
+
+
+    @RequestMapping(path = "/getJsonTree", method = RequestMethod.POST)
+    public Object getJsonTree(@RequestBody RequestEntity requestEntity)throws Exception {
+        Object result = protobufProcessor.getJsonTree(requestEntity.getClassName());
         return result;
     }
 }

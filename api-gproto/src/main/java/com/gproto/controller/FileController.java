@@ -37,6 +37,10 @@ public class FileController {
             return "error";
         }
 
+        if(!fileName.endsWith(".proto")){
+            return "error: not proto file";
+        }
+
         try {
             fileService.storeFile(fileName, uid, file);
         } catch (IOException e) {
