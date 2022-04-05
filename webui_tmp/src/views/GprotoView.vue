@@ -18,7 +18,7 @@
             <el-form ref="form" :model="formJson" label-width="80px">
           <br>
           <h2>Json Data</h2>
-          <el-input v-model="formJson.data" type="textarea" :rows="12"></el-input>
+          <el-input v-model="formJson.data" type="textarea" :rows="12">{{formJson.data}}</el-input>
             </el-form>
           </el-col>
           <el-col :span="4" class="col2">
@@ -26,7 +26,7 @@
               &nbsp;
             </el-row>
             <el-row>
-            <el-button type="primary" @click="getJsonTree('com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo')">to protobuf data</el-button>
+            <el-button type="primary" @click="getJsonTree('com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3')">to protobuf data</el-button>
             </el-row>
             <el-row>
               &nbsp;
@@ -74,7 +74,7 @@
       </el-main> 
     </el-container>
     <!-- 底栏 -->
-    <el-footer height="30px">&copy;gproto.cn</el-footer>
+    <el-footer height="30px">&copy;gproto.cn  📧gproto@163.com</el-footer>
   </el-container>
 </template>
 
@@ -96,63 +96,11 @@ export default {
       formProto: {
         data: ''
       },
-      jsonTreedata: [
-        {
-          label: "一级 1",
-          children: [
-            {
-              label: "二级 1-1",
-              children: [
-                {
-                  label: "三级 1-1-1",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: "一级 2",
-          children: [
-            {
-              label: "二级 2-1",
-              children: [
-                {
-                  label: "三级 2-1-1",
-                },
-              ],
-            },
-            {
-              label: "二级 2-2",
-              children: [
-                {
-                  label: "三级 2-2-1",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: "一级 3",
-          children: [
-            {
-              label: "二级 3-1",
-              children: [
-                {
-                  label: "三级 3-1-1",
-                },
-              ],
-            },
-            {
-              label: "二级 3-2",
-              children: [
-                {
-                  label: "三级 3-2-1",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      jsonTreedata: [],
+      protoInfo: {
+        packageName: 'com.saic.val.proto',
+        outerClassName: 'CloudSceneSyncProxyEnum_SOA20_SOA_0_3'
+      },
       defaultProps: {
         children: "children",
         label: "label",
@@ -198,7 +146,28 @@ export default {
         });
       },
       handleNodeClick(data) {
-      console.log(data);
+      console.log(data.label)
+      const dataJsonReq = {
+          "className": this.protoInfo.packageName + "." + this.protoInfo.outerClassName + "$" + data.label
+        };
+        // let className = "com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo";
+        // data.append('className', className);
+        console.log(data)
+        // axios.post(process.env + '/upload_file', data, {
+        axios.post('http://127.0.0.1:8090/gproto/v1/getDefaultJson', dataJsonReq
+        // {
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        // }
+        ).then(res => {
+          console.log(res);
+          let resData = res.data;
+          console.log(resData);
+          this.formJson.data = resData;
+        }).catch(err => {
+          console.log(err);
+        });
     },
       getJsonTree(messageName) {
         const data = {

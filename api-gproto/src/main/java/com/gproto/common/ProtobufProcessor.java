@@ -225,30 +225,37 @@ public class ProtobufProcessor {
      */
     public String getJsonTree(String className) {
         logger.info("className: " + className);
-        List<JsonTreeEntity> result = new ArrayList<>();
         try {
 
             Class<?> clazz = null;
             URLClassLoader urlClassLoader = DynamicJarLoader.getInstance().getClassLoader();
             //获取外部jar里面的具体类对象
             clazz = urlClassLoader.loadClass(className);
-            //创建对象实例
-            Class messageClazz = urlClassLoader.loadClass("com.google.protobuf.Message$Builder");
-            Method newBuilderMethod = clazz.getMethod("newBuilder");
 
-            Object messageBuilderObj = newBuilderMethod.invoke(clazz);
-            Method getDescriptorForType = messageBuilderObj.getClass().getDeclaredMethod("getDescriptorForType");
+            Class[] innerClazzes = clazz.getDeclaredClasses();
 
-            Object descriptor = getDescriptorForType.invoke(messageBuilderObj);
+            List<JsonTreeEntity> jsonTreeRoot = Lists.newArrayList();
 
-            Map<String, Object> toDefaultJson = toDefaultJson(descriptor, Maps.newHashMap());
-            logger.info(toDefaultJson.toString());
+            for (int i = 0; i < innerClazzes.length; i++) {
+                String innerClassName = innerClazzes[i].getName();
+                String simpleClassName = innerClazzes[i].getSimpleName();
+                logger.info(innerClassName);
 
-            result = mapDataToJsonTree(toDefaultJson);
+                if(!innerClassName.endsWith("Builder") && !innerClassName.endsWith("Enum")){
+                    List<JsonTreeEntity> children =  getNodeJsonTree(innerClassName);
+
+                    JsonTreeEntity parent = new JsonTreeEntity();
+                    parent.setLabel(simpleClassName);
+                    parent.setChildren(children);
+                    jsonTreeRoot.add(parent);
+
+                }
+
+            }
 
             ObjectMapper objectMapper = new ObjectMapper();
 
-            return objectMapper.writeValueAsString(result);
+            return objectMapper.writeValueAsString(jsonTreeRoot);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -450,6 +457,33 @@ public class ProtobufProcessor {
         return (String) nameMethod.invoke(descriptor);
     }
 
+
+    private List<JsonTreeEntity> getNodeJsonTree(String className) {
+        logger.info("className: " + className);
+        List<JsonTreeEntity> result = new ArrayList<>();
+        try {
+            Class<?> clazz = null;
+            URLClassLoader urlClassLoader = DynamicJarLoader.getInstance().getClassLoader();
+            //获取外部jar里面的具体类对象
+            clazz = urlClassLoader.loadClass(className);
+
+            //创建对象实例
+            Class messageClazz = urlClassLoader.loadClass("com.google.protobuf.Message$Builder");
+            Method newBuilderMethod = clazz.getMethod("newBuilder");
+
+            Object messageBuilderObj = newBuilderMethod.invoke(clazz);
+            Method getDescriptorForType = messageBuilderObj.getClass().getDeclaredMethod("getDescriptorForType");
+
+            Object descriptor = getDescriptorForType.invoke(messageBuilderObj);
+
+            Map<String, Object> toDefaultJson = toDefaultJson(descriptor, Maps.newHashMap());
+            logger.info(toDefaultJson.toString());
+            result = mapDataToJsonTree(toDefaultJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     private List<JsonTreeEntity> mapDataToJsonTree(Map<String, Object> mapData){
         List<JsonTreeEntity> result = Lists.newArrayList();
