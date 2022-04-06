@@ -135,12 +135,14 @@ export default {
         console.log(file)
         console.log(data)
         // axios.post(process.env + '/upload_file', data, {
-        axios.post('http://gproto.cn:8080/gproto/v1/file/uploadProto', data, {
+        axios.post('http://127.0.0.1:8090/gproto/v1/file/uploadProto', data, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         }).then(res => {
           console.log(res);
+          console.log(res.data.code)
+          console.log(res.data.data)
         }).catch(err => {
           console.log(err);
         });
@@ -155,40 +157,38 @@ export default {
             // "className": this.protoInfo.packageName + "." + this.protoInfo.outerClassName + "$" + data.label
             "className": "com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2" + "$" + data.label
           };
-          // let className = "com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo";
-          // data.append('className', className);
-          console.log(data)
-          // axios.post(process.env + '/upload_file', data, {
           axios.post('http://127.0.0.1:8090/gproto/v1/getDefaultJson', dataJsonReq
-          // {
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          // }
           ).then(res => {
             console.log(res);
             let resData = res.data;
-            console.log(resData);
             this.formJson.data = JSON.stringify(resData, null, 4);
           }).catch(err => {
             console.log(err);
           });  
 
         }else{
-          const dataFieldJsonReq = {
-            // "className": this.protoInfo.packageName + "." + this.protoInfo.outerClassName + "$" + data.label
-            "className": "com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2" + "$" + e.parent.data.label,
-            "field": data.label
-          };
-          // let className = "com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo";
-          // data.append('className', className);
-          // axios.post(process.env + '/upload_file', data, {
-          axios.post('http://127.0.0.1:8090/gproto/v1/getDefaultJson', dataFieldJsonReq
-          // {
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          // }
+          let dataFieldJsonReq;
+          if(e.parent.parent.data.label == undefined){
+             dataFieldJsonReq = {
+                        "className": "com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2" + "$" + e.parent.data.label,
+                        "fieldName": e.data.label
+                      };
+          }else{
+            if(e.parent.parent.parent.parent != undefined){
+              console.log("只能处理到前三级属性")
+              this.formJson.data = "超出限制： 只能处理到前三级属性";
+              return;
+            }
+            dataFieldJsonReq = {
+                    "className": "com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2" + "$" + e.parent.parent.data.label,
+                    "fieldName": e.parent.data.label,
+                    "subFieldName": data.label
+                  };
+          }
+          
+
+          console.log(dataFieldJsonReq);
+          axios.post('http://127.0.0.1:8090/gproto/v1/getFieldDefaultJson', dataFieldJsonReq
           ).then(res => {
             console.log(res);
             let resData = res.data;

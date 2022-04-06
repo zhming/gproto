@@ -1,6 +1,10 @@
 package com.gproto.service.impl;
 
+import com.google.common.collect.Maps;
+import com.gproto.constants.ProtoConstant;
+import com.gproto.entity.ProtoInfoEntity;
 import com.gproto.service.FileService;
+import com.gproto.utils.FileUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Service
@@ -31,23 +36,36 @@ public class FileServiceImpl implements FileService {
         FileUtils.copyFile(sourceDirectory, destinationDirectory);
     }
 
+    private static ProtoInfoEntity getProtoInfo(String path) throws IOException {
+        Map<String, String> keyWordMap = Maps.newHashMap();
+        keyWordMap.put(ProtoConstant.JAVA_PACKAGE, null);
+        keyWordMap.put(ProtoConstant.JAVA_OUTER_CLASSNAME, null);
+
+        Map<String, String> valueMap = FileUtil.findContent(path, keyWordMap);
+
+        ProtoInfoEntity protoInfoEntity = new ProtoInfoEntity();
+        protoInfoEntity.setPackageName(valueMap.get(ProtoConstant.JAVA_PACKAGE));
+        protoInfoEntity.setClassName(valueMap.get(ProtoConstant.JAVA_OUTER_CLASSNAME));
+        return protoInfoEntity;
+    }
+
     @Override
-    public boolean saveFile(String fileName, String fileContent, String uid) throws IOException {
+    public ProtoInfoEntity saveFile(String fileName, String fileContent, String uid) throws IOException {
         log.info("basePath" + basePath);
-        log.info("protoJarPath"+protoJarPath);
+        log.info("protoJarPath" + protoJarPath);
         log.info(fileContent + "\n");
-        String mavenGprotoPath = basePath + "\\" + uid + "\\maven-gproto";
+        String mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
         String path = basePath + "/" + uid;
         String fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
         String jarName = fileName.substring(0, fileName.lastIndexOf("."));
-        String[] cmd = {"cmd", "/C", mavenGprotoPath + "\\maven-build.bat", jarName, " ", mavenGprotoPath};
+        String[] cmd = {"cmd", "/C", mavenGprotoPath + "/maven-build.bat", jarName, " ", mavenGprotoPath};
 
-        if(SystemUtils.IS_OS_LINUX){
+        if (SystemUtils.IS_OS_LINUX) {
             path = basePath + "/" + uid;
             fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
             mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
-            log.info("mavenGprotoPath"+mavenGprotoPath);
-            log.info("fullFileName"+fullFileName);
+            log.info("mavenGprotoPath" + mavenGprotoPath);
+            log.info("fullFileName" + fullFileName);
             jarName = fileName.substring(0, fileName.lastIndexOf("."));
             cmd = new String[]{mavenGprotoPath + "/maven-build.sh", jarName, " ", mavenGprotoPath};
         }
@@ -62,7 +80,9 @@ public class FileServiceImpl implements FileService {
             e.printStackTrace();
         }
 
-        return true;
+        ProtoInfoEntity result = getProtoInfo(fullFileName);
+
+        return result;
     }
 
     @Override
@@ -72,18 +92,18 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public boolean storeFile(String fileName, String uid, MultipartFile file) throws IOException {
+    public ProtoInfoEntity storeFile(String fileName, String uid, MultipartFile file) throws IOException {
         String path = basePath + "/" + uid;
         String fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
-        String mavenGprotoPath = basePath + "\\" + uid + "\\maven-gproto";
+        String mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
         String jarName = fileName.substring(0, fileName.lastIndexOf("."));
 
-        String[] cmd = {"cmd", "/C", mavenGprotoPath + "\\maven-build.bat", jarName, " ", mavenGprotoPath};
+        String[] cmd = {"cmd", "/C", mavenGprotoPath + "/maven-build.bat", jarName, " ", mavenGprotoPath};
 
-        if(SystemUtils.IS_OS_LINUX){
-             path = basePath + "/" + uid;
-             fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
-             mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
+        if (SystemUtils.IS_OS_LINUX) {
+            path = basePath + "/" + uid;
+            fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
+            mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
             jarName = fileName.substring(0, fileName.lastIndexOf("."));
             cmd = new String[]{mavenGprotoPath + "/maven-build.sh", jarName, " ", mavenGprotoPath};
         }
@@ -97,7 +117,10 @@ public class FileServiceImpl implements FileService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return true;
+
+        ProtoInfoEntity result = getProtoInfo(fullFileName);
+
+        return result;
     }
 
     private void initUserFolder(String uid, String path) throws IOException {
@@ -113,8 +136,8 @@ public class FileServiceImpl implements FileService {
     }
 
     private void runMavenBuild(String[] cmd, String jarFlag) throws IOException, InterruptedException {
-        if(SystemUtils.IS_OS_LINUX){
-            ProcessBuilder builder = new ProcessBuilder("/bin/chmod", "755",cmd[0]);
+        if (SystemUtils.IS_OS_LINUX) {
+            ProcessBuilder builder = new ProcessBuilder("/bin/chmod", "755", cmd[0]);
 
             Process process = builder.start();
 
@@ -144,9 +167,12 @@ public class FileServiceImpl implements FileService {
 
         String sourceJarDir = jarInfo.substring(jarFlag.length());
         log.info("sourceJarDir: " + sourceJarDir);
-        String jarFileName = sourceJarDir.substring(sourceJarDir.lastIndexOf("/") + 1);
+        String jarFileName = "";
+
+        jarFileName = sourceJarDir.substring(sourceJarDir.lastIndexOf("/") + 1);
         log.info("jarFileName: " + jarFileName);
         copyFile(sourceJarDir, protoJarPath + "/" + jarFileName);
+
     }
 
     private void save(String fileName, String fileContent) throws IOException {

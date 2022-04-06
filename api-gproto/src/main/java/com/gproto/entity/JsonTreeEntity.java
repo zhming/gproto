@@ -18,6 +18,7 @@ import java.util.List;
 //           }
 public class JsonTreeEntity implements Serializable {
     private String label;
+    private int level;
     private List<JsonTreeEntity> children;
 
     public String getLabel() {
@@ -28,6 +29,15 @@ public class JsonTreeEntity implements Serializable {
         this.label = label;
     }
 
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public List<JsonTreeEntity> getChildren() {
         return children;
     }
@@ -36,4 +46,12 @@ public class JsonTreeEntity implements Serializable {
         this.children = children;
     }
 
+    @Override
+    public String toString() {
+        return "JsonTreeEntity{" +
+                "label='" + label + '\'' +
+                ", level=" + level +
+                ", children=" + children +
+                '}';
+    }
 }

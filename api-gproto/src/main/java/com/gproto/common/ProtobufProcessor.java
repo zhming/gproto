@@ -190,21 +190,7 @@ public class ProtobufProcessor {
         logger.info("className: " + className);
         try {
 
-            Class<?> clazz = null;
-            URLClassLoader urlClassLoader = DynamicJarLoader.getInstance().getClassLoader();
-            //获取外部jar里面的具体类对象
-            clazz = urlClassLoader.loadClass(className);
-            //创建对象实例
-            Class messageClazz = urlClassLoader.loadClass("com.google.protobuf.Message$Builder");
-            Method newBuilderMethod = clazz.getMethod("newBuilder");
-
-            Object messageBuilderObj = newBuilderMethod.invoke(clazz);
-            Method getDescriptorForType = messageBuilderObj.getClass().getDeclaredMethod("getDescriptorForType");
-
-            Object descriptor = getDescriptorForType.invoke(messageBuilderObj);
-
-
-            Map<String, Object> toDefaultJson = toDefaultJson(descriptor, Maps.newHashMap());
+            Map<String, Object> toDefaultJson = getDefaultValueObjectMap(className);
 
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -214,6 +200,24 @@ public class ProtobufProcessor {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private Map<String, Object> getDefaultValueObjectMap(String className) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Class<?> clazz = null;
+        URLClassLoader urlClassLoader = DynamicJarLoader.getInstance().getClassLoader();
+        //获取外部jar里面的具体类对象
+        clazz = urlClassLoader.loadClass(className);
+        //创建对象实例
+        Class messageClazz = urlClassLoader.loadClass("com.google.protobuf.Message$Builder");
+        Method newBuilderMethod = clazz.getMethod("newBuilder");
+
+        Object messageBuilderObj = newBuilderMethod.invoke(clazz);
+        Method getDescriptorForType = messageBuilderObj.getClass().getDeclaredMethod("getDescriptorForType");
+
+        Object descriptor = getDescriptorForType.invoke(messageBuilderObj);
+
+
+        return toDefaultJson(descriptor, Maps.newHashMap());
     }
 
 
@@ -242,7 +246,8 @@ public class ProtobufProcessor {
                 logger.info(innerClassName);
 
                 if(!innerClassName.endsWith("Builder") && !innerClassName.endsWith("Enum")){
-                    List<JsonTreeEntity> children =  getNodeJsonTree(innerClassName);
+                    int level = 1;
+                    List<JsonTreeEntity> children =  getNodeJsonTree(innerClassName, level);
 
                     JsonTreeEntity parent = new JsonTreeEntity();
                     parent.setLabel(simpleClassName);
@@ -408,7 +413,7 @@ public class ProtobufProcessor {
                 Method isPackableMethod = fieldObj.getClass().getDeclaredMethod("isRepeated");
                 Boolean isRepeated = (Boolean) isPackableMethod.invoke(fieldObj);
 
-                logger.info( key + "isRepeated: " + isRepeated.toString());
+//                logger.info( key + " isRepeated: " + isRepeated.toString());
 
                 if(isRepeated){
                     array = Lists.newArrayList();
@@ -458,7 +463,7 @@ public class ProtobufProcessor {
     }
 
 
-    private List<JsonTreeEntity> getNodeJsonTree(String className) {
+    private List<JsonTreeEntity> getNodeJsonTree(String className, int level) {
         logger.info("className: " + className);
         List<JsonTreeEntity> result = new ArrayList<>();
         try {
@@ -487,17 +492,45 @@ public class ProtobufProcessor {
 
     private List<JsonTreeEntity> mapDataToJsonTree(Map<String, Object> mapData){
         List<JsonTreeEntity> result = Lists.newArrayList();
-        mapData.forEach((key, value) -> {
-            JsonTreeEntity jsonTreeEntity = new JsonTreeEntity();
-            jsonTreeEntity.setLabel(key);
-            if(value instanceof Map){
-                jsonTreeEntity.setChildren(mapDataToJsonTree((Map<String, Object>)value));
-            }
-            result.add(jsonTreeEntity);
-        });
+            mapData.forEach((key, value) -> {
+                JsonTreeEntity jsonTreeEntity = new JsonTreeEntity();
+                jsonTreeEntity.setLabel(key);
+                if(value instanceof Map){
+                    jsonTreeEntity.setChildren(mapDataToJsonTree((Map<String, Object>)value));
+                }
+                result.add(jsonTreeEntity);
+            });
 
         return result;
     }
 
 
+    public String getFieldDefaultJson(String className, String fieldName, String subFieldName) {
+
+        String result = "";
+        try {
+            Object obj = null;
+            Map<String, Object> toDefaultJson = getDefaultValueObjectMap(className);
+
+            if(!Strings.isNullOrEmpty(fieldName)){
+
+                obj = toDefaultJson.get(fieldName);
+
+                if(!Strings.isNullOrEmpty(subFieldName)){
+                    Map<String, Object> fieldMap = ( Map<String, Object>)obj;
+                    obj = fieldMap.get(subFieldName);
+                }
+            }else{
+                obj = toDefaultJson;
+            }
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            result =  objectMapper.writeValueAsString(obj);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

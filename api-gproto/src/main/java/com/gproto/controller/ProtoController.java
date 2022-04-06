@@ -50,6 +50,13 @@ public class ProtoController {
         return result;
     }
 
+    @RequestMapping(path = "/getFieldDefaultJson", method = RequestMethod.POST)
+    public Object getFieldDefaultJson(@RequestBody RequestEntity requestEntity)throws Exception {
+        logger.info(requestEntity.toString());
+        Object result = protobufProcessor.getFieldDefaultJson(requestEntity.getClassName(), requestEntity.getFieldName(), requestEntity.getSubFieldName());
+        return result;
+    }
+
 
     @RequestMapping(path = "/getJsonTree", method = RequestMethod.POST)
     public Object getJsonTree(@RequestBody RequestEntity requestEntity)throws Exception {

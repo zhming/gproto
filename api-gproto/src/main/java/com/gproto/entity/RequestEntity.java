@@ -55,4 +55,15 @@ public class RequestEntity implements Serializable {
     public void setSubFieldName(String subFieldName) {
         this.subFieldName = subFieldName;
     }
+
+    @Override
+    public String toString() {
+        return "RequestEntity{" +
+                "className='" + className + '\'' +
+                ", base64Data='" + base64Data + '\'' +
+                ", jsonData='" + jsonData + '\'' +
+                ", fieldName='" + fieldName + '\'' +
+                ", subFieldName='" + subFieldName + '\'' +
+                '}';
+    }
 }
