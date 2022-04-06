@@ -26,7 +26,7 @@
               &nbsp;
             </el-row>
             <el-row>
-            <el-button type="primary" @click="getJsonTree('com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3')">to protobuf data</el-button>
+            <el-button type="primary" @click="getJsonTree('com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2')">to protobuf data</el-button>
             </el-row>
             <el-row>
               &nbsp;
@@ -145,30 +145,62 @@ export default {
           console.log(err);
         });
       },
-      handleNodeClick(data) {
-      console.log(data.label)
-      const dataJsonReq = {
-          "className": this.protoInfo.packageName + "." + this.protoInfo.outerClassName + "$" + data.label
-        };
-        // let className = "com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo";
-        // data.append('className', className);
-        console.log(data)
-        // axios.post(process.env + '/upload_file', data, {
-        axios.post('http://127.0.0.1:8090/gproto/v1/getDefaultJson', dataJsonReq
-        // {
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        // }
-        ).then(res => {
-          console.log(res);
-          let resData = res.data;
-          console.log(resData);
-          this.formJson.data = resData;
-        }).catch(err => {
-          console.log(err);
-        });
-    },
+      handleNodeClick(data, e) {
+        console.log(data.label)
+        console.log(e.parent.data.label)
+
+        if(e.parent.data.label == undefined){
+          console.log("根节点")
+          const dataJsonReq = {
+            // "className": this.protoInfo.packageName + "." + this.protoInfo.outerClassName + "$" + data.label
+            "className": "com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2" + "$" + data.label
+          };
+          // let className = "com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo";
+          // data.append('className', className);
+          console.log(data)
+          // axios.post(process.env + '/upload_file', data, {
+          axios.post('http://127.0.0.1:8090/gproto/v1/getDefaultJson', dataJsonReq
+          // {
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          // }
+          ).then(res => {
+            console.log(res);
+            let resData = res.data;
+            console.log(resData);
+            this.formJson.data = JSON.stringify(resData, null, 4);
+          }).catch(err => {
+            console.log(err);
+          });  
+
+        }else{
+          const dataFieldJsonReq = {
+            // "className": this.protoInfo.packageName + "." + this.protoInfo.outerClassName + "$" + data.label
+            "className": "com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2" + "$" + e.parent.data.label,
+            "field": data.label
+          };
+          // let className = "com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo";
+          // data.append('className', className);
+          // axios.post(process.env + '/upload_file', data, {
+          axios.post('http://127.0.0.1:8090/gproto/v1/getDefaultJson', dataFieldJsonReq
+          // {
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          // }
+          ).then(res => {
+            console.log(res);
+            let resData = res.data;
+            console.log(resData);
+            this.formJson.data = JSON.stringify(resData, null, 4);
+          }).catch(err => {
+            console.log(err);
+          });
+        }
+
+        
+      },
       getJsonTree(messageName) {
         const data = {
           "className": messageName
@@ -187,6 +219,7 @@ export default {
           console.log(res);
           let resData = res.data;
           console.log(resData)
+
           this.jsonTreedata = resData;
         }).catch(err => {
           console.log(err);
