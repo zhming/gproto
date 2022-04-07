@@ -5,6 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "local-server": "vue-cli-service serve --mode local",
+    "dev-server": "vue-cli-service serve --mode dev",
+    "prodution-server": "vue-cli-service serve --mode prodution",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -27,6 +30,7 @@
     "eslint-plugin-vue": "^8.0.3",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
+    "script-ext-html-webpack-plugin": "^2.1.5",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
