@@ -8,6 +8,7 @@
     <el-container>
       <!-- 侧边导航菜单 -->
       <el-aside width="180px">
+        <h3>JSONTREE</h3>
         <el-tree
           class="el-aside"
           :data="jsonTreedata"
@@ -20,28 +21,14 @@
         <!-- 第一列栅格布局 -->
         <el-row>
           <el-col :span="12" class="col1">
+             <h2>Json Data</h2>
             <el-form ref="form" :model="formJson" label-width="80px">
-              <br />
-              <h2>Json Data</h2>
               <el-input v-model="formJson.data" type="textarea" :rows="12">{{
                 formJson.data
               }}</el-input>
             </el-form>
           </el-col>
           <el-col :span="4" class="col2">
-            <el-row> &nbsp; </el-row>
-            <el-row>
-              <el-button
-                type="primary"
-                @click="getJsonTree(currentProtoInfo.fullClassName)"
-                >to protobuf data</el-button
-              >
-            </el-row>
-            <el-row> &nbsp; </el-row>
-            <el-row>
-              <el-button>to json data</el-button>
-            </el-row>
-            <el-row> &nbsp; </el-row>
             <el-row>
               <el-upload
                 class="upload-demo"
@@ -55,7 +42,7 @@
                 :limit="1"
               >
                 <el-button size="small" type="primary">
-                  Click upload
+                  CLICK UPLOAD PROTO
                 </el-button>
                 <div slot="tip" class="el-upload__tip">
                   Can only upload proto file , And no more than 1M
@@ -66,8 +53,25 @@
                 </div>
               </el-upload>
             </el-row>
+            <el-row> &nbsp; </el-row>
+            <el-row>
+              <el-button
+                type="primary"
+                @click="getJsonTree(currentProtoInfo.fullClassName)"
+                >GET JSON TREE</el-button
+              >
+            </el-row>
+            <el-row> &nbsp; </el-row>
+            <el-row>
+              <el-button type="primary" disabled>JSON TO PROTO</el-button>
+            </el-row>
+            <el-row> &nbsp; </el-row>
+            <el-row>
+              <el-button type="primary" disabled>PROTO TO JSON</el-button>
+            </el-row>
+            <el-row> &nbsp; </el-row>
           </el-col>
-          <el-col :span="10" class="col3">
+          <el-col :span="12" class="col3">
             <el-form ref="form" :model="formProto" label-width="80px">
               <br />
               <h2>Protobuf Data</h2>
@@ -87,7 +91,14 @@
       </el-main>
     </el-container>
     <!-- 底栏 -->
-    <el-footer height="30px">&copy;gproto.cn 📧gproto@163.com</el-footer>
+    <el-footer height="30px">
+      <div>&copy;gproto.cn 📧gproto@163.com</div>
+      <div>
+        <p class="footer-copyright">Copyright © 2022-  All rights
+                reserved. &nbsp;&nbsp;&nbsp;&nbsp;<a rel="nofollow" href="https://beian.miit.gov.cn/" style="color: #CCC;" target="_blank">辽ICP备2022001085号-1</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        </div>
+      
+      </el-footer>
   </el-container>
 </template>
 
@@ -297,7 +308,7 @@ export function uploadProto(data) {
   text-align: center;
 }
 .el-aside {
-  background-color: rgb(42, 190, 183);
+  background-color: rgb(239, 239, 239);
 }
 .el-main {
   background-color: white;
@@ -306,16 +317,16 @@ export function uploadProto(data) {
   height: 400px;
 }
 .col1 {
-  background-color: teal;
+  background-color: rgb(239, 239, 239);
 }
 .col2 {
   background-color: whitesmoke;
 }
 .col3 {
-  background-color: rgb(247, 233, 247);
+  background-color: rgb(239, 239, 239);
 }
 
 .col4 {
-  background-color: rgb(15, 168, 155);
+  background-color: rgb(239, 239, 239);
 }
 </style>
