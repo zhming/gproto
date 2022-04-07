@@ -18,7 +18,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static Map<String, String> findContent(String path, Map<String, String> keyWordMap) throws IOException {
-        Map<String, String> result = keyWordMap;
+        Map<String, String> result = Maps.newHashMap();
 
         File file = new File(path);
         FileReader in = new FileReader(file);

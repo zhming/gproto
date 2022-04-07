@@ -22,6 +22,7 @@ public class ProtoInfoEntity implements Serializable {
         this.packageName = packageName;
     }
 
+
     @Override
     public String toString() {
         return "ProtoInfoRespEntity{" +

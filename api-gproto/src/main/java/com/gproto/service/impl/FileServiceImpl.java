@@ -1,12 +1,16 @@
 package com.gproto.service.impl;
 
 import com.google.common.collect.Maps;
+import com.gproto.common.ProtobufProcessor;
 import com.gproto.constants.ProtoConstant;
+import com.gproto.entity.JsonTreeEntity;
 import com.gproto.entity.ProtoInfoEntity;
 import com.gproto.service.FileService;
 import com.gproto.utils.FileUtil;
+import io.swagger.annotations.Authorization;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +27,9 @@ public class FileServiceImpl implements FileService {
     private String basePath;
     @Value("${gproto.proto-jar-path}")
     private String protoJarPath;
+
+    @Autowired
+    private ProtobufProcessor protobufProcessor;
 
     public static void copyDirectory(String sourceDirectoryLocation, String destinationDirectoryLocation) throws IOException {
         File sourceDirectory = new File(sourceDirectoryLocation);
@@ -168,9 +175,8 @@ public class FileServiceImpl implements FileService {
         if (ret == 0) {
             String sourceJarDir = jarInfo.substring(jarFlag.length());
             log.info("sourceJarDir: " + sourceJarDir);
-            String jarFileName = "";
-
-            jarFileName = sourceJarDir.substring(sourceJarDir.lastIndexOf("/") + 1);
+            File file = new File(sourceJarDir);
+            String jarFileName = file.getName();
             log.info("jarFileName: " + jarFileName);
             copyFile(sourceJarDir, protoJarPath + "/" + jarFileName);
         }else {
