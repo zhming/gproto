@@ -146,7 +146,7 @@ public class FileServiceImpl implements FileService {
 
         Process proc = Runtime.getRuntime().exec(cmd);
         String jarInfo = "";
-
+        int ret = 99;
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     proc.getInputStream()));
@@ -159,19 +159,24 @@ public class FileServiceImpl implements FileService {
             }
 
 
-            int ret = proc.waitFor();
+            ret = proc.waitFor();
             log.info("ret: " + ret);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            throw e;
+        }
+        if (ret == 0) {
+            String sourceJarDir = jarInfo.substring(jarFlag.length());
+            log.info("sourceJarDir: " + sourceJarDir);
+            String jarFileName = "";
+
+            jarFileName = sourceJarDir.substring(sourceJarDir.lastIndexOf("/") + 1);
+            log.info("jarFileName: " + jarFileName);
+            copyFile(sourceJarDir, protoJarPath + "/" + jarFileName);
+        }else {
+            throw new InterruptedException("build fail");
         }
 
-        String sourceJarDir = jarInfo.substring(jarFlag.length());
-        log.info("sourceJarDir: " + sourceJarDir);
-        String jarFileName = "";
-
-        jarFileName = sourceJarDir.substring(sourceJarDir.lastIndexOf("/") + 1);
-        log.info("jarFileName: " + jarFileName);
-        copyFile(sourceJarDir, protoJarPath + "/" + jarFileName);
 
     }
 
