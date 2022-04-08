@@ -1,13 +1,51 @@
 <template>
   <el-container>
     <!-- 顶栏 -->
-    <el-header height="20px">
+    <el-header height="120px">
       <!-- <h2>Google Protobuf Convert Tool</h2> -->
+      <el-row>
+        <el-col :span="2"></el-col>
+        <el-col :span="6">
+          <el-upload
+            class="upload-demo"
+            action="#"
+            :http-request="handleChange"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :on-exceed="handleExceed"
+            :file-list="fileList"
+            :limit="1"
+          >
+            <el-button size="small" type="primary">
+              CLICK UPLOAD PROTO
+            </el-button>
+            <div slot="tip" class="el-upload__tip">
+              Can only upload proto file , And no more than 1M
+            </div>
+          
+          </el-upload>
+        </el-col>
+        <el-col :span="4">
+            <div  class="el-upload__tip">
+              className: {{ currentProtoInfo.outerClassName }}
+              <br />packageName:
+              {{ currentProtoInfo.packageName }}
+            </div>
+        </el-col>
+        <el-col :span="4">
+          <el-button
+            type="primary"
+            @click="getJsonTree(currentProtoInfo.fullClassName)"
+            >GET JSON TREE</el-button
+          >
+        </el-col>
+      </el-row>
     </el-header>
     <!-- 嵌套容器 -->
     <el-container>
       <!-- 侧边导航菜单 -->
-      <el-aside width="180px">
+      <el-aside width="240px">
         <h3>JSONTREE</h3>
         <el-tree
           class="el-aside"
@@ -20,66 +58,36 @@
       <el-main>
         <!-- 第一列栅格布局 -->
         <el-row>
-          <el-col :span="12" class="col1">
-             <h2>Json Data</h2>
+          <el-col :span="24" class="col1">
+            <h2>Json Data</h2>
             <el-form ref="form" :model="formJson" label-width="80px">
               <el-input v-model="formJson.data" type="textarea" :rows="12">{{
                 formJson.data
               }}</el-input>
             </el-form>
           </el-col>
-          <el-col :span="4" class="col2">
+        </el-row>
+        <el-row>
+          <el-col :span="24" class="el-col2">
             <el-row>
-              <el-upload
-                class="upload-demo"
-                action="#"
-                :http-request="handleChange"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :before-remove="beforeRemove"
-                :on-exceed="handleExceed"
-                :file-list="fileList"
-                :limit="1"
-              >
-                <el-button size="small" type="primary">
-                  CLICK UPLOAD PROTO
-                </el-button>
-                <div slot="tip" class="el-upload__tip">
-                  Can only upload proto file , And no more than 1M
-                </div>
-                <div slot="tip" class="el-upload__tip">
-                  className: {{ currentProtoInfo.outerClassName }} packageName:
-                  {{ currentProtoInfo.packageName }}
-                </div>
-              </el-upload>
+              <el-col :span="12">
+                <el-button type="primary" @click="jsonToProtoClick"
+                  >JSON TO PROTO</el-button
+                >
+              </el-col>
+              <el-col :span="12">
+                <el-button type="primary" @click="protoToJsonClick"
+                  >PROTO TO JSON</el-button
+                >
+              </el-col>
             </el-row>
-            <el-row> &nbsp; </el-row>
-            <el-row>
-              <el-button
-                type="primary"
-                @click="getJsonTree(currentProtoInfo.fullClassName)"
-                >GET JSON TREE</el-button
-              >
-            </el-row>
-            <el-row> &nbsp; </el-row>
-            <el-row>
-              <el-button type="primary" disabled>JSON TO PROTO</el-button>
-            </el-row>
-            <el-row> &nbsp; </el-row>
-            <el-row>
-              <el-button type="primary" disabled>PROTO TO JSON</el-button>
-            </el-row>
-            <el-row> &nbsp; </el-row>
           </el-col>
-          <el-col :span="12" class="col3">
+        </el-row>
+        <el-row>
+          <el-col :span="24" class="col3">
             <el-form ref="form" :model="formProto" label-width="80px">
               <br />
-              <h2>Protobuf Data</h2>
-              <el-radio-group v-model="formProto.encode">
-                <el-radio label="Base64"></el-radio>
-                <el-radio label="Bytes"></el-radio>
-                <el-radio label="HEX16"> </el-radio>
-              </el-radio-group>
+              <h2>Protobuf Data By Base64 Encode</h2>
               <el-input
                 v-model="formProto.data"
                 type="textarea"
@@ -94,11 +102,17 @@
     <el-footer height="30px">
       <div>&copy;gproto.cn 📧gproto@163.com</div>
       <div>
-        <p class="footer-copyright">Copyright © 2022-  All rights
-                reserved. &nbsp;&nbsp;&nbsp;&nbsp;<a rel="nofollow" href="https://beian.miit.gov.cn/" style="color: #CCC;" target="_blank">辽ICP备2022001085号-1</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
-        </div>
-      
-      </el-footer>
+        <p class="footer-copyright">
+          Copyright © 2022- All rights reserved. &nbsp;&nbsp;&nbsp;&nbsp;<a
+            rel="nofollow"
+            href="https://beian.miit.gov.cn/"
+            style="color: #ccc"
+            target="_blank"
+            >辽ICP备2022001085号-1</a
+          >&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+      </div>
+    </el-footer>
   </el-container>
 </template>
 
@@ -125,6 +139,9 @@ export default {
         packageName: "",
         outerClassName: "",
         fullClassName: "",
+        messageName: "",
+        fieldName: "",
+        subFieldName: "",
       },
       defaultProps: {
         children: "children",
@@ -153,7 +170,6 @@ export default {
     },
     handleChange(param) {
       const data = new FormData();
-
       let fileName = param.file.name;
       let file = param.file;
       data.append("file", file);
@@ -180,6 +196,7 @@ export default {
         const dataJsonReq = {
           className: this.currentProtoInfo.fullClassName + "$" + data.label,
         };
+        this.currentProtoInfo.messageName = data.label;
         getDefaultJson(dataJsonReq)
           .then((res) => {
             console.log(res);
@@ -197,6 +214,8 @@ export default {
               this.currentProtoInfo.fullClassName + "$" + e.parent.data.label,
             fieldName: e.data.label,
           };
+          this.currentProtoInfo.messageName = e.parent.data.label;
+          this.currentProtoInfo.fieldName = e.data.label;
         } else {
           if (e.parent.parent.parent.parent != undefined) {
             console.log("只能处理到前三级属性");
@@ -211,6 +230,9 @@ export default {
             fieldName: e.parent.data.label,
             subFieldName: data.label,
           };
+          this.currentProtoInfo.messageName = e.parent.parent.data.label;
+          this.currentProtoInfo.fieldName = e.parent.data.label;
+          this.currentProtoInfo.subFieldName = data.label;
         }
 
         console.log(dataFieldJsonReq);
@@ -244,6 +266,46 @@ export default {
           let resData = res.data;
           console.log(resData);
           this.jsonTreedata = resData;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    jsonToProtoClick() {
+      const data = {
+        className:
+          this.currentProtoInfo.packageName +
+          "." +
+          this.currentProtoInfo.outerClassName +
+          "$" +
+          this.currentProtoInfo.messageName,
+        jsonData: this.formJson.data,
+      };
+
+      jsonToProto(data)
+        .then((res) => {
+          console.log(res);
+          this.formProto.data = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    protoToJsonClick() {
+      const data = {
+        className:
+          this.currentProtoInfo.packageName +
+          "." +
+          this.currentProtoInfo.outerClassName +
+          "$" +
+          this.currentProtoInfo.messageName,
+        base64Data: this.formProto.data,
+      };
+
+      protoToJson(data)
+        .then((res) => {
+          console.log(res);
+          this.formJson.data = JSON.stringify(res.data, null, 4);
         })
         .catch((err) => {
           console.log(err);
@@ -283,6 +345,22 @@ export function getDefaultJson(data) {
   });
 }
 
+export function jsonToProto(data) {
+  return gportoApi({
+    url: "/gproto/v1/jsonToProtobuf",
+    method: "post",
+    data: data,
+  });
+}
+
+export function protoToJson(data) {
+  return gportoApi({
+    url: "/gproto/v1/protobufDataToJson",
+    method: "post",
+    data: data,
+  });
+}
+
 export function uploadProto(data) {
   return gportoApi({
     url: "/gproto/v1/file/uploadProto",
@@ -298,7 +376,7 @@ export function uploadProto(data) {
 
 <style>
 .el-header {
-  background-color: #409eff;
+  background-color: #a8cdf1;
   color: white;
   height: 5%;
 }
@@ -314,7 +392,11 @@ export function uploadProto(data) {
   background-color: white;
 }
 .el-col {
-  height: 400px;
+  height: 350px;
+}
+
+.el-col2 {
+  height: 40px;
 }
 .col1 {
   background-color: rgb(239, 239, 239);
