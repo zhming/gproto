@@ -8,7 +8,7 @@ function resolve(dir) {
 
 // const TerserPlugin = require("terser-webpack-plugin");
 
-const name = defaultSettings.title || "GPROTO"; // 标题
+const name = defaultSettings.title || "Google Protobuf Online Tool"; // 标题
 
 const port = process.env.port || process.env.npm_config_port || 80; // 端口
 
@@ -36,7 +36,7 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://dev-val-terminal-gateway.sjjg-sw-val-dev.njpk-uat-a.sxc.sh/val-base`,
+        target: `http://127.0.0.1:8080`,
         changeOrigin: true,
         pathRewrite: {
           ["^" + process.env.VUE_APP_BASE_API]: "",

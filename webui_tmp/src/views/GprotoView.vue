@@ -21,7 +21,7 @@
               CLICK UPLOAD PROTO
             </el-button>
             <div slot="tip" class="el-upload__tip">
-              Can only upload proto file , And no more than 1M
+              Please upload your proto file , And no more than 1M.
             </div>
           
           </el-upload>
@@ -37,7 +37,7 @@
           <el-button
             type="primary"
             @click="getJsonTree(currentProtoInfo.fullClassName)"
-            >GET JSON TREE</el-button
+            >GET MESSAGE TREE</el-button
           >
         </el-col>
       </el-row>
@@ -46,7 +46,7 @@
     <el-container>
       <!-- 侧边导航菜单 -->
       <el-aside width="240px">
-        <h3>JSONTREE</h3>
+        <h3>MESSAGE TREE</h3>
         <el-tree
           class="el-aside"
           :data="jsonTreedata"
@@ -175,6 +175,25 @@ export default {
       data.append("file", file);
       data.append("uid", "0403");
       data.append("fileName", fileName);
+      
+      const uploadLimit = 1;
+      const uploadTypes = ['proto'];
+      const filetype = file.name.replace(/.+\./, '');
+      const isRightSize = (file.size || 0) / 1024 / 1024 < uploadLimit;
+      if (!isRightSize) {
+        this.$message.error('File size ' + uploadLimit + 'MB');
+        return false;
+      }
+
+      if (uploadTypes.indexOf(filetype.toLowerCase()) === -1) {
+        this.$message.warning({
+          message: 'Please upload proto file.'
+        })
+        return false
+      }
+
+
+
       uploadProto(data)
         .then((res) => {
           console.log(res);
