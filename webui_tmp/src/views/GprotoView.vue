@@ -23,15 +23,13 @@
             <div slot="tip" class="el-upload__tip">
               Please upload your proto file , And no more than 1M.
             </div>
-          
           </el-upload>
         </el-col>
         <el-col :span="4">
-            <div  class="el-upload__tip">
-              className: {{ currentProtoInfo.outerClassName }}
-              <br />packageName:
-              {{ currentProtoInfo.packageName }}
-            </div>
+          <div class="el-upload__tip">
+            className: {{ currentProtoInfo.outerClassName }} <br />packageName:
+            {{ currentProtoInfo.packageName }}
+          </div>
         </el-col>
         <el-col :span="4">
           <el-button
@@ -58,7 +56,7 @@
       <el-main>
         <!-- 第一列栅格布局 -->
         <el-row>
-          <el-col :span="24" class="col1">
+          <el-col :span="10" class="col1">
             <h2>Json Data</h2>
             <el-form ref="form" :model="formJson" label-width="80px">
               <el-input v-model="formJson.data" type="textarea" :rows="12">{{
@@ -66,27 +64,33 @@
               }}</el-input>
             </el-form>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24" class="el-col2">
+          <el-col :span="4">
             <el-row>
-              <el-col :span="12">
+              <el-col class="el-col2"> </el-col>
+            </el-row>
+            <el-row>
+              <el-col class="el-col2">
                 <el-button type="primary" @click="jsonToProtoClick"
-                  >JSON TO PROTO</el-button
+                  ><span class="iconfont icon-zuojiantou">JSON</span>
+                 </el-button
+              
                 >
               </el-col>
-              <el-col :span="12">
+            </el-row>
+            <el-row>
+              <el-col class="el-col2"> </el-col>
+            </el-row>
+            <el-row>
+              <el-col  class="el-col2">
                 <el-button type="primary" @click="protoToJsonClick"
-                  >PROTO TO JSON</el-button
+                  >PROTO<span class="iconfont icon-course"></span></el-button
                 >
               </el-col>
             </el-row>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24" class="col3">
+
+          <el-col :span="10" class="col1">
             <el-form ref="form" :model="formProto" label-width="80px">
-              <br />
               <h2>Protobuf Data By Base64 Encode</h2>
               <el-input
                 v-model="formProto.data"
@@ -175,24 +179,22 @@ export default {
       data.append("file", file);
       data.append("uid", "0403");
       data.append("fileName", fileName);
-      
+
       const uploadLimit = 1;
-      const uploadTypes = ['proto'];
-      const filetype = file.name.replace(/.+\./, '');
+      const uploadTypes = ["proto"];
+      const filetype = file.name.replace(/.+\./, "");
       const isRightSize = (file.size || 0) / 1024 / 1024 < uploadLimit;
       if (!isRightSize) {
-        this.$message.error('File size ' + uploadLimit + 'MB');
+        this.$message.error("File size " + uploadLimit + "MB");
         return false;
       }
 
       if (uploadTypes.indexOf(filetype.toLowerCase()) === -1) {
         this.$message.warning({
-          message: 'Please upload proto file.'
-        })
-        return false
+          message: "Please upload proto file.",
+        });
+        return false;
       }
-
-
 
       uploadProto(data)
         .then((res) => {
@@ -430,4 +432,6 @@ export function uploadProto(data) {
 .col4 {
   background-color: rgb(239, 239, 239);
 }
+
+
 </style>
