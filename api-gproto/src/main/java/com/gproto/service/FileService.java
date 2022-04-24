@@ -17,9 +17,9 @@ public interface FileService {
      * @return
      * @throws IOException
      */
-    ProtoInfoEntity saveFile(String fileName, String fileContent, String uid) throws IOException;
+    ProtoInfoEntity saveFile(String fileName, String fileContent, String uid) throws IOException, InterruptedException;
 
     boolean clearFile(String fileName, String uid)  throws IOException;
 
-    ProtoInfoEntity storeFile(String fileName, String uid, MultipartFile file) throws IOException;
+    ProtoInfoEntity storeFile(String fileName, String uid, MultipartFile file) throws IOException, InterruptedException;
 }

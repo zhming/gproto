@@ -57,7 +57,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public ProtoInfoEntity saveFile(String fileName, String fileContent, String uid) throws IOException {
+    public ProtoInfoEntity saveFile(String fileName, String fileContent, String uid) throws IOException, InterruptedException {
         log.info("basePath" + basePath);
         log.info("protoJarPath" + protoJarPath);
         log.info(fileContent + "\n");
@@ -85,6 +85,7 @@ public class FileServiceImpl implements FileService {
             runMavenBuild(cmd, jarFlag);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            throw e;
         }
 
         ProtoInfoEntity result = getProtoInfo(fullFileName);
@@ -99,7 +100,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public ProtoInfoEntity storeFile(String fileName, String uid, MultipartFile file) throws IOException {
+    public ProtoInfoEntity storeFile(String fileName, String uid, MultipartFile file) throws IOException, InterruptedException {
         String path = basePath + "/" + uid;
         String fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
         String mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
@@ -123,6 +124,7 @@ public class FileServiceImpl implements FileService {
             runMavenBuild(cmd, jarFlag);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            throw e;
         }
 
         ProtoInfoEntity result = getProtoInfo(fullFileName);

@@ -27,7 +27,7 @@ public class FileController {
             ProtoInfoEntity protoInfoEntity = fileService.saveFile(requestData.getFileName(), requestData.getContent(), requestData.getUid());
             return ResponseEntity.respSuccess(protoInfoEntity);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.respErrorInstance("10099");
         }
@@ -48,7 +48,7 @@ public class FileController {
             ProtoInfoEntity protoInfoEntity = fileService.storeFile(fileName, uid, file);
 
             return ResponseEntity.respSuccess(protoInfoEntity);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.respErrorInstance("10099");
         }

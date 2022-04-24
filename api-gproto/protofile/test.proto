@@ -1,6 +1,6 @@
 syntax = "proto3";
 option optimize_for = LITE_RUNTIME;
-option java_package = "com.saic.val.proto";
+option java_package = "saic.000.val.proto";
 option java_outer_classname = "CloudSceneSyncProxy111_SOA20_SOA_0_3";
 option java_multiple_files = false;
 
@@ -50,4 +50,5 @@ message CloudSceneSyncProxyAInfo {
     servicebase.serviceheader srvHeader = 1;
     BindingKeyUpdateAMethod BindingKeyUpdateParam = 2;
 }
-
+
+
