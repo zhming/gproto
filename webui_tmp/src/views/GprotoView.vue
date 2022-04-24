@@ -123,6 +123,7 @@
 <script>
 import { mapGetters } from "vuex";
 import gportoApi from "@/utils/request";
+import { uuid } from 'vue-uuid';
 
 export default {
   name: "GprotoTool",
@@ -130,6 +131,7 @@ export default {
   props: {},
   data() {
     return {
+      uid: uuid.v1().replaceAll("-","").substring(0,16),
       fileList: [],
       formJson: {
         data: "",
@@ -177,9 +179,10 @@ export default {
       let fileName = param.file.name;
       let file = param.file;
       data.append("file", file);
-      data.append("uid", "0403");
+      data.append("uid", this.uid);
       data.append("fileName", fileName);
 
+      console.log(this.uid)
       const uploadLimit = 1;
       const uploadTypes = ["proto"];
       const filetype = file.name.replace(/.+\./, "");

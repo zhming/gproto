@@ -120,7 +120,7 @@ public class FileUtil {
                     return false;
                 }
                 String pkgWord1 = pkgWords[0];
-                pkg = pkg.replaceAll(pkgWord1, pkgWord1 + "." + "0403");
+                pkg = pkg.replaceAll(pkgWord1, pkgWord1 + "." + uid);
                 tempStr = ProtoConstant.JAVA_PACKAGE + pkg;
             }
                 // 将该行写入内存

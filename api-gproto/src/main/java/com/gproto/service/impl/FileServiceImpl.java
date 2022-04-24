@@ -120,6 +120,8 @@ public class FileServiceImpl implements FileService {
 
         file.transferTo(new File(fullFileName));
 
+        FileUtil.replacePackage(fullFileName, uid);
+
         try {
             runMavenBuild(cmd, jarFlag);
         } catch (InterruptedException e) {
