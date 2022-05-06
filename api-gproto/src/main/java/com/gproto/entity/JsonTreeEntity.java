@@ -19,6 +19,7 @@ import java.util.List;
 public class JsonTreeEntity implements Serializable {
     private String label;
     private int level;
+    private boolean disable;
     private List<JsonTreeEntity> children;
 
     public String getLabel() {
@@ -38,6 +39,14 @@ public class JsonTreeEntity implements Serializable {
         this.level = level;
     }
 
+    public boolean isDisable() {
+        return disable;
+    }
+
+    public void setDisable(boolean disable) {
+        this.disable = disable;
+    }
+
     public List<JsonTreeEntity> getChildren() {
         return children;
     }
@@ -51,6 +60,7 @@ public class JsonTreeEntity implements Serializable {
         return "JsonTreeEntity{" +
                 "label='" + label + '\'' +
                 ", level=" + level +
+                ", disable=" + disable +
                 ", children=" + children +
                 '}';
     }

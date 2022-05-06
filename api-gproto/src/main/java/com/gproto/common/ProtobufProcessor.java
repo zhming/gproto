@@ -483,20 +483,24 @@ public class ProtobufProcessor {
 
             Map<String, Object> toDefaultJson = toDefaultJson(descriptor, Maps.newHashMap());
             logger.info(toDefaultJson.toString());
-            result = mapDataToJsonTree(toDefaultJson);
+            result = mapDataToJsonTree(toDefaultJson, level);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    private List<JsonTreeEntity> mapDataToJsonTree(Map<String, Object> mapData){
+    private List<JsonTreeEntity> mapDataToJsonTree(Map<String, Object> mapData, int level){
         List<JsonTreeEntity> result = Lists.newArrayList();
             mapData.forEach((key, value) -> {
                 JsonTreeEntity jsonTreeEntity = new JsonTreeEntity();
                 jsonTreeEntity.setLabel(key);
+                jsonTreeEntity.setLevel(level);
+                if(level >= 4){
+                    jsonTreeEntity.setDisable(true);
+                }
                 if(value instanceof Map){
-                    jsonTreeEntity.setChildren(mapDataToJsonTree((Map<String, Object>)value));
+                    jsonTreeEntity.setChildren(mapDataToJsonTree((Map<String, Object>)value, level + 1));
                 }
                 result.add(jsonTreeEntity);
             });

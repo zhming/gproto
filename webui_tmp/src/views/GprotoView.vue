@@ -15,7 +15,7 @@
             :before-remove="beforeRemove"
             :on-exceed="handleExceed"
             :file-list="fileList"
-            :limit="1"
+            :limit="3"
           >
             <el-button size="small" type="primary">
               CLICK UPLOAD PROTO
@@ -131,7 +131,7 @@ export default {
   props: {},
   data() {
     return {
-      uid: uuid.v1().replaceAll("-","").substring(0,16),
+      uid: "g" + uuid.v1().replaceAll("-","").substring(0,15),
       fileList: [],
       formJson: {
         data: "",
