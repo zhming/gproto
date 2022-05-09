@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  *
@@ -13,8 +14,10 @@ public class RequestEntity implements Serializable {
     private String className;
     private String base64Data;
     private String jsonData;
+    private String messageName;
     private String fieldName;
     private String subFieldName;
+    private String[] fields;
 
     public String getClassName() {
         return className;
@@ -56,14 +59,32 @@ public class RequestEntity implements Serializable {
         this.subFieldName = subFieldName;
     }
 
+    public String getMessageName() {
+        return messageName;
+    }
+
+    public void setMessageName(String messageName) {
+        this.messageName = messageName;
+    }
+
+    public String[] getFields() {
+        return fields;
+    }
+
+    public void setFields(String[] fields) {
+        this.fields = fields;
+    }
+
     @Override
     public String toString() {
         return "RequestEntity{" +
                 "className='" + className + '\'' +
                 ", base64Data='" + base64Data + '\'' +
                 ", jsonData='" + jsonData + '\'' +
+                ", messageName='" + messageName + '\'' +
                 ", fieldName='" + fieldName + '\'' +
                 ", subFieldName='" + subFieldName + '\'' +
+                ", fields=" + Arrays.toString(fields) +
                 '}';
     }
 }

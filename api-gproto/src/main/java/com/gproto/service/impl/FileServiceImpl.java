@@ -1,6 +1,7 @@
 package com.gproto.service.impl;
 
 import com.google.common.collect.Maps;
+import com.gproto.classloader.DynamicJarLoader;
 import com.gproto.common.ProtobufProcessor;
 import com.gproto.constants.ProtoConstant;
 import com.gproto.entity.JsonTreeEntity;

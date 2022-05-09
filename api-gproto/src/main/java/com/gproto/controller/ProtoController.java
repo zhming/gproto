@@ -91,6 +91,18 @@ public class ProtoController {
     }
 
 
+    @RequestMapping(path = "/getMessageAndFieldsDefaultJson", method = RequestMethod.POST)
+    public Object getMessageAndFieldsDefaultJson(@RequestBody RequestEntity requestEntity)throws Exception {
+        logger.info(requestEntity.toString());
+        if(Objects.isNull(requestEntity) || Strings.isNullOrEmpty(requestEntity.getClassName())){
+            return ResponseEntity.respErrorInstance("10098");
+        }
+        Object result = protobufProcessor.getMessageAndFieldsDefaultJson(requestEntity.getClassName(),
+                requestEntity.getFields());
+        return result;
+    }
+
+
     @RequestMapping(path = "/getJsonTree", method = RequestMethod.POST)
     public Object getJsonTree(@RequestBody RequestEntity requestEntity)throws Exception {
         if(Objects.isNull(requestEntity) || Strings.isNullOrEmpty(requestEntity.getClassName())){

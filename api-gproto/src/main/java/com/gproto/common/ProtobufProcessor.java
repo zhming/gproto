@@ -537,4 +537,30 @@ public class ProtobufProcessor {
         }
         return result;
     }
+
+    public String getMessageAndFieldsDefaultJson(String className, String[] fieldNames) {
+        List<String> fields = Arrays.asList(fieldNames);
+
+        String result = "";
+        try {
+            Object obj = null;
+            Map<String, Object> toDefaultJson =new HashMap<>();
+            Map<String, Object> toDefaultJsonNew = getDefaultValueObjectMap(className);
+            toDefaultJsonNew.forEach((key,value) -> {
+                if(fields.contains(key)){
+                    toDefaultJson.put(key, value);
+                }
+            });
+
+            obj = toDefaultJson;
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            result =  objectMapper.writeValueAsString(obj);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
