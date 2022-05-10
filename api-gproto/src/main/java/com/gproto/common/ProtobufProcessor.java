@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.gproto.classloader.DynamicJarLoader;
 import com.gproto.entity.JsonTreeEntity;
+import com.gproto.entity.MessageField;
 import com.gproto.enumtype.ProtoJavaType;
 import com.gproto.exception.ProtobufCastException;
 import com.gproto.exception.ProtobufNoFieldException;
@@ -17,6 +18,7 @@ import java.lang.reflect.Method;
 import java.net.URLClassLoader;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * @author qianzhm
@@ -538,17 +540,36 @@ public class ProtobufProcessor {
         return result;
     }
 
-    public String getMessageAndFieldsDefaultJson(String className, String[] fieldNames) {
-        List<String> fields = Arrays.asList(fieldNames);
-
+    public String getMessageAndFieldsDefaultJson(String className, List<MessageField> fields) {
         String result = "";
         try {
+            Map<String, MessageField> fieldNames =  fields.stream().collect(Collectors.toMap(MessageField::getFieldName, p -> p));
+
             Object obj = null;
             Map<String, Object> toDefaultJson =new HashMap<>();
             Map<String, Object> toDefaultJsonNew = getDefaultValueObjectMap(className);
             toDefaultJsonNew.forEach((key,value) -> {
-                if(fields.contains(key)){
-                    toDefaultJson.put(key, value);
+                if(fieldNames.containsKey(key)){
+                    Map<String, Object> subFieldJsonMap = ( Map<String, Object>)value;
+                    List<MessageField> subFields = fieldNames.get(key).getSubFields();
+                    if(Objects.isNull(subFields) || subFields.size() == 0){
+                        toDefaultJson.put(key, value);
+                    }else{
+                        Map<String, Object> subFieldJsonValueMap = new HashMap<>();
+                        Map<String, MessageField> subFieldsMap = subFields.stream().collect(Collectors.toMap(MessageField::getFieldName, p -> p));
+
+                        subFieldJsonMap.forEach((subKey, subValue) -> {
+                            if(subFieldsMap.containsKey(subKey)){
+                                subFieldJsonValueMap.put(subKey, subFieldJsonMap.get(subKey));
+                            }
+                        });
+                        if(subFieldJsonMap.size() > 0){
+                            toDefaultJson.put(key, subFieldJsonValueMap);
+                        }
+
+
+                    }
+
                 }
             });
 

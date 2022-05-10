@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -17,7 +18,7 @@ public class RequestEntity implements Serializable {
     private String messageName;
     private String fieldName;
     private String subFieldName;
-    private String[] fields;
+    private List<MessageField> fields;
 
     public String getClassName() {
         return className;
@@ -67,11 +68,11 @@ public class RequestEntity implements Serializable {
         this.messageName = messageName;
     }
 
-    public String[] getFields() {
+    public List<MessageField> getFields() {
         return fields;
     }
 
-    public void setFields(String[] fields) {
+    public void setFields(List<MessageField> fields) {
         this.fields = fields;
     }
 
@@ -84,7 +85,7 @@ public class RequestEntity implements Serializable {
                 ", messageName='" + messageName + '\'' +
                 ", fieldName='" + fieldName + '\'' +
                 ", subFieldName='" + subFieldName + '\'' +
-                ", fields=" + Arrays.toString(fields) +
+                ", fields=" + fields +
                 '}';
     }
 }
