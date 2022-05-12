@@ -19,7 +19,7 @@ import java.util.List;
 public class JsonTreeEntity implements Serializable {
     private String label;
     private int level;
-    private boolean disable;
+    private boolean disabled;
     private List<JsonTreeEntity> children;
 
     public String getLabel() {
@@ -39,12 +39,12 @@ public class JsonTreeEntity implements Serializable {
         this.level = level;
     }
 
-    public boolean isDisable() {
-        return disable;
+    public boolean isDisabled() {
+        return disabled;
     }
 
-    public void setDisable(boolean disable) {
-        this.disable = disable;
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 
     public List<JsonTreeEntity> getChildren() {
@@ -60,7 +60,7 @@ public class JsonTreeEntity implements Serializable {
         return "JsonTreeEntity{" +
                 "label='" + label + '\'' +
                 ", level=" + level +
-                ", disable=" + disable +
+                ", disable=" + disabled +
                 ", children=" + children +
                 '}';
     }

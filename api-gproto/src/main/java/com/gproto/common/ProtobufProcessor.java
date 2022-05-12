@@ -498,9 +498,9 @@ public class ProtobufProcessor {
                 JsonTreeEntity jsonTreeEntity = new JsonTreeEntity();
                 jsonTreeEntity.setLabel(key);
                 jsonTreeEntity.setLevel(level);
-                if(level >= 4){
-                    jsonTreeEntity.setDisable(true);
-                }
+//                if(level >= 3){
+//                    jsonTreeEntity.setDisabled(true);
+//                }
                 if(value instanceof Map){
                     jsonTreeEntity.setChildren(mapDataToJsonTree((Map<String, Object>)value, level + 1));
                 }
