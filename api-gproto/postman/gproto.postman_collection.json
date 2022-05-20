@@ -324,6 +324,72 @@
 					"response": []
 				},
 				{
+					"name": "getMessageAndFieldsDefaultJson",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$CloudSceneSyncProxyInfo\",\r\n    \"fields\": [{\"fieldName\": \"ResourceVersionListParam\", \"subFields\": [{\"fieldName\": \"output\", \"subFields\": []}]},\r\n    {\"fieldName\": \"srvHeader\", \"subFields\": []}\r\n    ],\r\n    \"uid\": \"g598b4d90cf8e11e\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/getMessageAndFieldsDefaultJson",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"getMessageAndFieldsDefaultJson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDefaultJson-enumcase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxyEnum_SOA20_SOA_0_3$CloudSceneSyncProxyEnumInfo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/getDefaultJson",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"getDefaultJson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "uploadProto-enumcase",
 					"request": {
 						"method": "POST",
@@ -374,7 +440,7 @@
 					"response": []
 				},
 				{
-					"name": "getDefaultJson-enumcase",
+					"name": "getJsonTree",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -388,7 +454,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8090/gproto/v1/getDefaultJson",
+							"raw": "http://127.0.0.1:8090/gproto/v1/getJsonTree",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -400,7 +466,7 @@
 							"path": [
 								"gproto",
 								"v1",
-								"getDefaultJson"
+								"getJsonTree"
 							]
 						}
 					},
@@ -688,6 +754,61 @@
 								"gproto",
 								"v1",
 								"jsonToProtobuf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getJsonTree",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8090/gproto/v1/getJsonTree",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"gproto",
+								"v1",
+								"getJsonTree"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMessageAndFieldsDefaultJson",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"className\": \"com.saic.val.proto.CloudSceneSyncProxy_SOA20_SOA_0_2$CloudSceneSyncProxyInfo\",\r\n    \"fields\": [{\"fieldName\": \"ResourceVersionListParam\", \"subFields\": [{\"fieldName\": \"input\", \"subFields\": []}, {\"fieldName\": \"output\", \"subFields\": []}]},\r\n    {\"fieldName\": \"srvHeader\", \"subFields\": []}\r\n    ],\r\n    \"uid\": \"g598b4d90cf8e11e\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://gproto.cn/api/gproto/v1/getMessageAndFieldsDefaultJson",
+							"protocol": "https",
+							"host": [
+								"gproto",
+								"cn"
+							],
+							"path": [
+								"api",
+								"gproto",
+								"v1",
+								"getMessageAndFieldsDefaultJson"
 							]
 						}
 					},

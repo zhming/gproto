@@ -550,25 +550,30 @@ public class ProtobufProcessor {
             Map<String, Object> toDefaultJsonNew = getDefaultValueObjectMap(className);
             toDefaultJsonNew.forEach((key,value) -> {
                 if(fieldNames.containsKey(key)){
-                    Map<String, Object> subFieldJsonMap = ( Map<String, Object>)value;
-                    List<MessageField> subFields = fieldNames.get(key).getSubFields();
-                    if(Objects.isNull(subFields) || subFields.size() == 0){
-                        toDefaultJson.put(key, value);
-                    }else{
-                        Map<String, Object> subFieldJsonValueMap = new HashMap<>();
-                        Map<String, MessageField> subFieldsMap = subFields.stream().collect(Collectors.toMap(MessageField::getFieldName, p -> p));
+                    if(value instanceof Map){
+                        Map<String, Object> subFieldJsonMap = ( Map<String, Object>)value;
+                        List<MessageField> subFields = fieldNames.get(key).getSubFields();
+                        if(Objects.isNull(subFields) || subFields.size() == 0){
+                            toDefaultJson.put(key, value);
+                        }else{
+                            Map<String, Object> subFieldJsonValueMap = new HashMap<>();
+                            Map<String, MessageField> subFieldsMap = subFields.stream().collect(Collectors.toMap(MessageField::getFieldName, p -> p));
 
-                        subFieldJsonMap.forEach((subKey, subValue) -> {
-                            if(subFieldsMap.containsKey(subKey)){
-                                subFieldJsonValueMap.put(subKey, subFieldJsonMap.get(subKey));
+                            subFieldJsonMap.forEach((subKey, subValue) -> {
+                                if(subFieldsMap.containsKey(subKey)){
+                                    subFieldJsonValueMap.put(subKey, subFieldJsonMap.get(subKey));
+                                }
+                            });
+                            if(subFieldJsonMap.size() > 0){
+                                toDefaultJson.put(key, subFieldJsonValueMap);
                             }
-                        });
-                        if(subFieldJsonMap.size() > 0){
-                            toDefaultJson.put(key, subFieldJsonValueMap);
+
+
                         }
-
-
+                    }else{
+                        logger.info("base type field");
                     }
+
 
                 }
             });
