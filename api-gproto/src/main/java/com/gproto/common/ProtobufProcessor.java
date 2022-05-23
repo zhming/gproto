@@ -1,5 +1,6 @@
 package com.gproto.common;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -588,5 +589,31 @@ public class ProtobufProcessor {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public Object getMessageEnum(String className) throws ClassNotFoundException {
+        Class<?> clazz = null;
+        URLClassLoader urlClassLoader = DynamicJarLoader.getInstance().getClassLoader();
+        //获取外部jar里面的具体类对象
+        clazz = urlClassLoader.loadClass(className);
+
+        Enum enumObj = null;
+
+        if(clazz.isEnum()){
+            Object[] values =  clazz.getEnumConstants();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            try {
+                return objectMapper.writeValueAsString(values);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            throw new RuntimeException("10098");
+        }
+
+
+
     }
 }

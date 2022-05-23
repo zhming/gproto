@@ -111,4 +111,14 @@ public class ProtoController {
         Object result = protobufProcessor.getJsonTree(requestEntity.getClassName());
         return result;
     }
+
+
+    @RequestMapping(path = "/getMessageEnum", method = RequestMethod.POST)
+    public Object getMessageEnum(@RequestBody RequestEntity requestEntity)throws Exception {
+        if(Objects.isNull(requestEntity) || Strings.isNullOrEmpty(requestEntity.getClassName())){
+            return ResponseEntity.respErrorInstance("10098");
+        }
+        Object result = protobufProcessor.getMessageEnum(requestEntity.getClassName());
+        return result;
+    }
 }
