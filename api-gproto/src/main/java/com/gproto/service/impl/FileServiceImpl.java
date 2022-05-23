@@ -102,8 +102,9 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public ProtoInfoEntity storeFile(String fileName, String uid, MultipartFile file) throws IOException, InterruptedException {
+        fileName = file.getOriginalFilename();
         String path = basePath + "/" + uid;
-        String fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
+        String fullFileName = path + "/maven-gproto/src/main/proto/" + file.getName();
         String mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
         String jarName = fileName.substring(0, fileName.lastIndexOf("."));
 
@@ -111,7 +112,7 @@ public class FileServiceImpl implements FileService {
 
         if (SystemUtils.IS_OS_LINUX) {
             path = basePath + "/" + uid;
-            fullFileName = path + "/maven-gproto/src/main/proto/proto/" + fileName;
+            fullFileName = path + "/maven-gproto/src/main/proto/" + fileName;
             mavenGprotoPath = basePath + "/" + uid + "/maven-gproto";
             jarName = fileName.substring(0, fileName.lastIndexOf("."));
             cmd = new String[]{mavenGprotoPath + "/maven-build.sh", jarName, " ", mavenGprotoPath};
@@ -122,6 +123,8 @@ public class FileServiceImpl implements FileService {
         file.transferTo(new File(fullFileName));
 
         FileUtil.replacePackage(fullFileName, uid);
+
+        FileUtil.replaceProtoImport(fullFileName);
 
         try {
             runMavenBuild(cmd, jarFlag);

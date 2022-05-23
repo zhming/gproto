@@ -144,13 +144,60 @@ public class FileUtil {
         return true;
     }
 
+    public static boolean replaceProtoImport(String filePath) throws IOException{
+        // 读
+        File file = new File(filePath);
+
+        FileReader in = new FileReader(file);
+        BufferedReader bufIn = new BufferedReader(in);
+
+        // 内存流, 作为临时流
+        CharArrayWriter  tempStream = new CharArrayWriter();
+
+        // 替换
+        String line = null;
+
+        while ( (line = bufIn.readLine()) != null) {
+            // 替换每行中, 符合条件的字符串
+            String tempStr = line;
+            if(line.startsWith(ProtoConstant.IMPORT) && line.contains("/")){
+                String importStr = line.replaceAll(ProtoConstant.IMPORT, "");
+                String[] importStrWords = importStr.split("\\/");
+                if(null == importStrWords || importStrWords.length == 0){
+                    return false;
+                }
+                String importStrWord = importStrWords[importStrWords.length - 1];
+                tempStr = ProtoConstant.IMPORT + " \"" +  importStrWord;
+            }
+            // 将该行写入内存
+            try {
+                tempStream.write(tempStr);
+                // 添加换行符
+                tempStream.append(System.getProperty("line.separator"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        // 关闭 输入流
+        bufIn.close();
+
+        // 将内存中的流 写入 文件
+        FileWriter out = new FileWriter(file);
+        tempStream.writeTo(out);
+        out.close();
+        return true;
+    }
+
     public static void main(String[] args) {
-        String path = "c:\\qianzhm\\gproto\\api-gproto\\protofile\\test-enum.proto";
+        String path = "d:/temp/protobuf/sceneservice.soa20.proto";
         Map<String, String> keyWordMap = Maps.newHashMap();
-        keyWordMap.put(ProtoConstant.JAVA_PACKAGE, "0403");
+        keyWordMap.put(ProtoConstant.JAVA_PACKAGE, "a0403");
 //        keyWordMap.put(ProtoConstant.JAVA_OUTER_CLASSNAME, null);
         try {
-            FileUtil.replacePackage(path, "0403");
+           // FileUtil.replacePackage(path, "0403");
+            FileUtil.replaceProtoImport(path);
 
 
 //            String str = "option java_package = \"com.saic.val.proto\";";
